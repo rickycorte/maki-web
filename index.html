@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Yasu Web</title>
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-light bg-light fixed-top">
+        <form class="container-fluid">
+          <div class="input-group margin-hor-10">
+            <span class="input-group-text" id="basic-addon1">MAL</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="form-username">
+            <button class="btn btn-outline-success" type="button" id="suggest-btn">Suggest me!</button>
+          </div>
+        </form>
+      </nav>
+    <div class="container-fluid offset-top-bar">
+        <div class="alert alert-danger text-center visually-hidden" role="alert" id="error-box">
+            ERR
+          </div>
+        <div class="alert alert-warning text-center visually-hidden" role="alert" id="slow-alert-box">
+            Generating suggestions may take a while so be patient!
+          </div>
+        <div id="anime-card-holder" class="row">
+
+        </div>
+    </div>
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="js/api.js"></script>
+  </body>
+</html>
