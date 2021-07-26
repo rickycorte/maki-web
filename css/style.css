@@ -8,7 +8,7 @@
 }
 
 body {
-    background-color: #303030;
+    background-color: #252525;
 }
 
 .text-red {
@@ -21,13 +21,14 @@ body {
 }
 
 .custom-nav {
-    background-color: #303030;
+    background-color: #252525;
 }
 
 .custom-in-text {
     background-color: transparent;
-    border-color: #F25F5C;
+    border-color: transparent;
     color: white;
+    margin-left: 55px;
 }
 
 .custom-in-text:focus {
@@ -36,13 +37,8 @@ body {
 }
 
 .site-badge{
-    margin-left: 5px;
+    margin-left: 10px;
     color: white;
-}
-
-input[type=text] {
-    padding-left: 50px; 
-    padding-right: 50px;
 }
 
 .custom-card {
@@ -71,8 +67,9 @@ a:visited {
     margin-bottom: 5px;
 }
 
-.btn-red {
-    z-index: -100;
+
+.red-border {
+    border-color: #F25F5C !important;
 }
 
 .btn-red:hover {
@@ -94,10 +91,17 @@ select:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-
-textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {  
+.focus-parent div:focus-within {
     border: 2px solid #F25F5C !important;
-    border-color: rgba(242, 95, 92, 0.8);
     box-shadow: 0 1px 1px rgba(242, 95, 92, 0.075) inset, 0 0 8px rgba(242, 95, 92, 0.6);
-    outline: 0 none;
+  }
+
+textarea,input {
+    caret-color: white;
+}
+
+/* fucking css, this is required to hide a white border blink on the input field*/
+textarea:visited, textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus input:active {  
+    border: 0px solid transparent!important;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
 }

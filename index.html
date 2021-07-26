@@ -15,20 +15,11 @@
   <body>
     
     <nav class="navbar navbar-light fixed-top custom-nav">
-      <!--
-        <form class="container-fluid">
-          <div class="input-group">
-            <span class="input-group-text cgt text-red" id="basic-addon1">MAL</span>
-            <input type="text" class="form-control custom-in-text" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="form-username">
-            <button class="btn btn-outline-danger text-red" type="button" id="suggest-btn">Suggest me!</button>
-          </div>
-        </form>
-        -->
-        <form class="container-fluid">
+        <form class="container-fluid focus-parent">
           <span class="position-absolute badge bg-danger text-red site-badge">MAL</span>
-          <div class="input-group">
-            <input type="text" class="form-control rounded custom-in-text" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="form-username">
-            <button class="position-absolute end-0 btn text-red btn-red" type="button" id="suggest-btn"><i class="fas fa-search"></i></button>
+          <div class="input-group border rounded red-border border-2">
+            <input type="text" class="form-control custom-in-text border-end-0" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="form-username">
+            <button class="btn text-red btn-red"" type="button" id="suggest-btn"><i class="fas fa-search"></i></button>
           </div>
         </form>
       </nav>
@@ -40,29 +31,10 @@
             Generating suggestions may take a while so be patient!
           </div>
         <div id="anime-card-holder" class="row">
-
-          <div class="col-12 col-lg-6 col-xxl-4">
-            <div class="card mb-3 custom-card">
-              <div class="row g-0">
-                <div class="col-4 col-md-4">
-                  <img src="https://images-na.ssl-images-amazon.com/images/I/61iwElTo6ML.jpg" class="img-fluid rounded-start">
-                </div>
-                <div class="col-8 col-md-8">
-                  <div class="card-body h-100">
-                    <h5 class="card-title text-truncate">{anime.title}</h5>
-                    <ul class="list-group list-group-flush custom-list-grop-item">
-                      <li class="list-group-item custom-list-grop-item""><i class="fas fa-tv"></i> {anime.type} {anime.year}</li>
-                      <li class="list-group-item custom-list-grop-item""><i class="fas fa-heart"></i> Affinity: {anime.affinity}</li>
-                    </ul>
-                    <div class="position-absolute bottom-0 card-bottom">
-                      <a href="https://anilist.co/anime/{anilist.id}" class="card-link">Anilist</a>
-                      <a href="https://myanimelist.net/anime/{myanimelist.id}" class="card-link">MyAnimeList</a>
-                    </div>
-                  </div>
-                </div>
-            </div>
+          <div class="position-absolute top-50 start-50 translate-middle text-light text-center">
+            <h1 class="text-center text-light">Hi, sen(pi) ~</h1>
+            <span class="text-muted">Write your username above and enjoy your recommendations!</span>
           </div>
-
         </div>
     </div>
     <!-- JavaScript -->
