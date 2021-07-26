@@ -1,24 +1,25 @@
 const anime_card_code = `
-<div class="col-12 col-md-6 col-xl-4">
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-4 col-md-4">
-        <img src="{anime.cover}" class="img-fluid rounded-start">
-      </div>
-      <div class="col-8 col-md-8">
-        <div class="card-body">
-          <h5 class="card-title text-truncate">{anime.title}</h5>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="https://anilist.co/anime/{anilist.id}">Anilist</a></li>
-            <li class="list-group-item"><a href="https://myanimelist.net/anime/{myanimelist.id}">MyAnimeList</a></li>
-          </ul>
+<div class="col-12 col-lg-6 col-xxl-4">
+<div class="card mb-3 custom-card">
+  <div class="row g-0">
+    <div class="col-4 col-md-4">
+      <img src="{anime.cover}" class="img-fluid rounded-start">
+    </div>
+    <div class="col-8 col-md-8">
+      <div class="card-body h-100">
+        <h5 class="card-title text-truncate">{anime.title}</h5>
+        <ul class="list-group list-group-flush custom-list-grop-item">
+          <li class="list-group-item custom-list-grop-item""><i class="fas fa-tv"></i> {anime.type} - {anime.year}</li>
+          <li class="list-group-item custom-list-grop-item""><i class="fas fa-heart"></i> Affinity: {anime.affinity}</li>
+        </ul>
+        <div class="position-absolute bottom-0 card-bottom">
+          <a href="https://anilist.co/anime/{anilist.id}" class="card-link">Anilist</a>
+          <a href="https://myanimelist.net/anime/{myanimelist.id}" class="card-link">MyAnimeList</a>
         </div>
       </div>
     </div>
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        {anime.score}
-    </span>
-  </div>
+</div>
+</div>
 </div>
 `
 
@@ -59,7 +60,9 @@ function generateAnimeSuggestionsUI(rjson) {
             .replace("{anime.title}", itm["title"])
             .replace("{anilist.id}", itm["anilist"])
             .replace("{myanimelist.id}", itm["mal"])
-            .replace("{anime.score}", itm["score"])
+            .replace("{anime.type}", itm["format"].toUpperCase())
+            .replace("{anime.year}", "YYYY")
+            .replace("{anime.affinity}", itm["affinity"].toFixed(2))
     
         anime_container.innerHTML += card
     })
@@ -79,7 +82,7 @@ function requestSuggestions() {
     hideErrorBox()
     showSlowWarnBox(true)
     console.log("Fetching suggestions for "+ usr)
-    fetch(`https://yasu-api.rickycorte.com/v1/mal/${usr}?opt=1`)
+    fetch(`https://yasu.lewdostrello.xyz/v1/mal/${usr}?k=12&opt=1`)
     .then(response => response.json())
     .then(data => generateAnimeSuggestionsUI(data))
     .catch(function() {
@@ -89,3 +92,14 @@ function requestSuggestions() {
 
 suggest_button.onclick = requestSuggestions
 
+
+// replace submit with enter key
+window.addEventListener('keydown', function(e) {
+  if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
+      if (e.target.nodeName == 'INPUT' && e.target.type == 'text') {
+          e.preventDefault()
+          requestSuggestions()
+          return false;
+      }
+  }
+}, true);

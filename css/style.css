@@ -6,3 +6,98 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+body {
+    background-color: #303030;
+}
+
+.text-red {
+    color: #F25F5C;
+}
+
+.cgt {
+    background-color: transparent !important;
+    border-color: #F25F5C !important;
+}
+
+.custom-nav {
+    background-color: #303030;
+}
+
+.custom-in-text {
+    background-color: transparent;
+    border-color: #F25F5C;
+    color: white;
+}
+
+.custom-in-text:focus {
+    background-color: transparent;
+    color: white;
+}
+
+.site-badge{
+    margin-left: 5px;
+    color: white;
+}
+
+input[type=text] {
+    padding-left: 50px; 
+    padding-right: 50px;
+}
+
+.custom-card {
+    background-color: #424242;
+    color: white;
+}
+
+.custom-list-grop-item {
+    background-color: transparent;
+    color: white;
+}
+
+a {
+    color: #F25F5C;
+}
+
+a:hover {
+    color: #c7302d;
+}
+
+a:visited {
+    color: #a5413f;
+}
+
+.card-bottom {
+    margin-bottom: 5px;
+}
+
+.btn-red {
+    z-index: -100;
+}
+
+.btn-red:hover {
+    color:#c7302d !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus
+input:-webkit-autofill, 
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+
+textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {  
+    border: 2px solid #F25F5C !important;
+    border-color: rgba(242, 95, 92, 0.8);
+    box-shadow: 0 1px 1px rgba(242, 95, 92, 0.075) inset, 0 0 8px rgba(242, 95, 92, 0.6);
+    outline: 0 none;
+}
