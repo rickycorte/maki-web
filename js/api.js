@@ -56,12 +56,12 @@ function generateAnimeSuggestionsUI(rjson) {
     console.log("Generating new list")
     rjson["recommendations"].forEach(itm => {
         var card = anime_card_code
-            .replace("{anime.cover}", itm["cover"])
+            .replace("{anime.cover}", itm["cover_url"])
             .replace("{anime.title}", itm["title"])
             .replace("{anilist.id}", itm["anilist"])
             .replace("{myanimelist.id}", itm["mal"])
             .replace("{anime.type}", itm["format"].toUpperCase())
-            .replace("{anime.year}", "YYYY")
+            .replace("{anime.year}", itm["release_year"])
             .replace("{anime.affinity}", itm["affinity"].toFixed(2))
     
         anime_container.innerHTML += card
@@ -82,7 +82,7 @@ function requestSuggestions() {
     hideErrorBox()
     showSlowWarnBox(true)
     console.log("Fetching suggestions for "+ usr)
-    fetch(`https://yasu.lewdostrello.xyz/v1/mal/${usr}?k=12&opt=1`)
+    fetch(`https://yasu.lewdostrello.xyz/v1/mal/${usr}?k=12`)
     .then(response => response.json())
     .then(data => generateAnimeSuggestionsUI(data))
     .catch(function() {
