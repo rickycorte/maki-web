@@ -11,6 +11,6 @@ I invite you to take a look at:
 - [Issues](https://github.com/rickycorte/yasu-web/issues)
 - [Discussions](https://github.com/rickycorte/yasu-web/discussions)
 - [Public Roadmap](https://github.com/rickycorte/yasu-web/projects/1)
-- API Documentation (Not available in alpha due to sudden api changes)
+- [API Documentation](https://yasu.lewdostrello.xyz/docs)
 
 Feel free to create an issue/discussion reguarding both the backend and the frontend!
