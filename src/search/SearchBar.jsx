@@ -8,13 +8,35 @@ import ToggableSignedInput from './ToggableSignedInput';
 class SearchBar extends React.Component {
 
     formats = [
-        { text: "TV",    value: "tv" },
-        { text: "Movie", value: "movie" }
+        { text: "TV",       value: "tv" },
+        { text: "Short",    value: "short" },
+        { text: "Movie",    value: "movie" },
+        { text: "OVA",      value: "ova" },
+        { text: "ONA",      value: "ona" },
+        { text: "Special",  value: "special" },
+        { text: "Music",    value: "music" },
     ];
 
     genres = [
-        {text: "Hentai", value: "hentai"},
-        {text: "Action", value: "action"},
+        {text: "Action",        value: "action"},
+        {text: "Adventure",     value: "adventure"},
+        {text: "Comedy",        value: "comedy"},
+        {text: "Drama",         value: "drama"},
+        {text: "Ecchi",         value: "ecchi"},
+        {text: "Fantasy",       value: "fantasy"},
+        {text: "Horror",        value: "horror"},
+        {text: "Maho Shoujo",   value: "mahou_shoujo"},
+        {text: "Mecha",         value: "mecha"},
+        {text: "Music",         value: "music"},
+        {text: "Mistery",       value: "mystery"},
+        {text: "Psychological", value: "psychological"},
+        {text: "Romance",       value: "romance"},
+        {text: "Sci-Fi",        value: "sci_fi"},
+        {text: "Slice of Life", value: "slice_of_life"},
+        {text: "Sports",        value: "sports"},
+        {text: "Supernatural",  value: "supernatural"},
+        {text: "Thriller",      value: "thriller"},
+        {text: "Hentai",        value: "hentai"},
     ]
 
     supported_sites = [
