@@ -1,0 +1,114 @@
+.red-border {
+    border-color: #dc3545 !important;
+}
+
+.btn-red:hover {
+    color:#c7302d !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus
+input:-webkit-autofill, 
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.focus-parent div:focus-within {
+    border: 3px solid #dc3545 !important;
+    box-shadow: 0 1px 1px rgba(220, 53, 69, 0.075) inset, 0 0 8px rgba(220, 53, 69, 0.6);
+  }
+
+textarea,input {
+    caret-color: white;
+}
+
+/* fucking css, this is required to hide a white border blink on the input field*/
+.custom-nav textarea:visited,
+.custom-nav textarea:focus,
+.custom-nav input:focus,
+.custom-nav input[type]:focus,
+.custom-nav .uneditable-input:focus input:active {  
+    border: 0px solid transparent!important;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+}
+
+.text-red {
+    color: #dc3545;   
+}
+
+.custom-in-text {
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
+    margin-left: 55px;
+}
+
+.custom-in-text:focus {
+    background-color: transparent;
+    color: white;
+}
+
+.site-badge {
+    margin-left: 10px;
+    color: white;
+    position: absolute;
+    z-index: 99999999;
+    cursor: pointer; 
+    text-decoration: none;
+}
+
+.site-badge a {
+    text-decoration: none;
+}
+
+.focus-parent a:hover, .focus-parent a:visited, .focus-parent a:active {
+    color: white;
+    text-decoration: underline 2px;
+}
+
+button:focus {
+    outline: 1px solid #dc3545 !important;   
+}
+
+.bottom-margin{
+    margin-bottom: 10px;
+}
+
+.no-pad {
+    padding: 0px;
+}
+
+
+.form-check-input:checked {
+    background-color: #dc3545 !important;
+  }
+
+.form-select {
+    background-color: transparent !important;
+    border: 2px solid #dc3545;
+    color: white;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.form-select option {
+    background-color: #121212;
+}
+
+.form-select:disabled {
+    color: #6c757d;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.filters .form-control {
+    background-color: transparent;
+    border: 2px solid #dc3545;
+    color: white;
+}
