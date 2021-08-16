@@ -13,7 +13,7 @@ class CardDeck extends React.Component {
         }
         else {
             deck_body = (
-                <div className="position-absolute top-50 start-50 translate-middle text-light text-center">
+                <div className="position-absolute top-50 start-50 translate-middle text-light text-center" style={{zIndex: "-100"}}>
                     <h1 className="text-center text-light">Hi, sen(pi) ~</h1>
                     <span className="text-muted">Write your username above and enjoy your recommendations!</span>
                 </div>

@@ -177,7 +177,7 @@ class SearchBar extends React.Component {
                 </div>
                 <div className="collapse filters" id="filter-collapse">
                     <div className="container-fluid">
-                        <div className="row">
+                        <div className="row" style={{backgroundColor: "#121212"}}>
 
                             <ToggableSelect top_label="Filter by format" select_options={this.formats} 
                                 select_text="Select Format"
