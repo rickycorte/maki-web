@@ -110,7 +110,7 @@ class SearchBar extends React.Component {
 
         // prepare link with filters
         
-        let req_url = this.base_api_url +`v1/${this.state.site}/${this.state.username}`;
+        let req_url = this.base_api_url +`anime/${this.state.site}/${this.state.username}`;
 
         let filters = `k=${this.candidates_per_request}`
         for (let key in this.state.filters) {
