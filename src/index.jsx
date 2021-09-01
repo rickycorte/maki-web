@@ -1,12 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './index.sass';
 import reportWebVitals from './reportWebVitals';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import DocsPage from './DocsPage';
+import SearchPage from './SearchPage';
+import HomePage from './HomePage';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+        <Switch>
+          <Route path="/docs">
+            <DocsPage />
+          </Route>
+          <Route path="/search">
+            <SearchPage />
+          </Route>
+          <Route path="/">
+            <HomePage />
+          </Route>
+        </Switch>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
