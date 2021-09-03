@@ -12,7 +12,7 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner, styles.discovery)}>
       <div className="container">
-        <h1 className="hero__title" style={{color: "white"}}>Discover new animes</h1>
+        <h1 className="hero__title" style={{color: "white"}}>Discover New Anime</h1>
         
         <input type="text" style={{marginBottom: "30px"}}></input>
 
@@ -37,10 +37,8 @@ function HomepageHeader() {
 }
 
 export default function Home() {
-  const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
       <main>
