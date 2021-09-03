@@ -3,8 +3,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'Yasu',
+  tagline: 'Discover New Anime',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -21,7 +21,7 @@ module.exports = {
     navbar: {
       title: 'Yasu',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Yasu',
         src: 'img/logo.svg',
       },
       items: [
@@ -49,16 +49,16 @@ module.exports = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Roadmap',
+              href: 'https://github.com/rickycorte/yasu-web/projects/1',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: 'Discussions & Support',
+              href: 'https://github.com/rickycorte/yasu-web/discussions',
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              label: 'Issues & Requests',
+              href: 'https://github.com/rickycorte/yasu-web/issues',
             },
           ],
         },
@@ -80,7 +80,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} <a href="https://github.com/rickycorte">rickycorte</a>. Built with Docusaurus.`,
     },
     prism: {
       theme: lightCodeTheme,
