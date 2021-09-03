@@ -1,5 +1,6 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const path = require('path')
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
@@ -29,7 +30,7 @@ module.exports = {
           type: 'doc',
           docId: 'intro',
           position: 'left',
-          label: 'Documenation',
+          label: 'Documentation',
         }
       ],
     },
@@ -105,4 +106,18 @@ module.exports = {
       },
     ],
   ],
+  plugins: [
+    [
+        path.resolve(__dirname, 'plugin-dynamic-routes'),
+        { 
+            routes: [
+                {
+                    path: '/search',
+                    exact: false, 
+                    component: '@site/src/components/search'
+                }
+            ]
+        }
+    ],
+],
 };
