@@ -1,62 +1,88 @@
 import React from 'react';
 import {Switch, Route, useRouteMatch, useParams} from '@docusaurus/router'
 
-function DeckPage () {
-    let {site, username} = useParams();
-    return (
-        <>
-            <h1>Hi there {username} looking for {site}?</h1>
 
-            <h2>Too bad a raccoon ate {site}</h2>
-        </>
-    )
-}
-
-
-
-
-/*
-class Search extends React.Component {
+class ResultPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {match: useRouteMatch()};
     }
 
 
     render() {
         return (
-        <div>
-            <Switch>
-                <Route path={`${this.state.match.path}/:site/:username`}>
-                    <DeckPage {...useParams()}></DeckPage>
-                </Route>
+            <>
+            <h1>Hi there {this.props.username} looking for {this.props.site}?</h1>
 
-                <Route path={this.state.match.path}>
-                    <h3>HELLO THERE :3</h3>
-                </Route>
-
-            </Switch>
-        </div>
+            <h2>Too bad a raccoon ate {this.props.site}</h2>
+            </>
         );
     }
 }
-*/
+
+
+function ErrorPage ({img, title, message}){
+    if (message == null){
+        message = "Something went wrong with your request!"
+    }
+    if(title == null) {
+        title = "Wait Sen(pi)!?!?"
+    }
+    if(img == null) {
+        img = require('@site/static/img/character_frightened.png').default
+    }
+
+    return (
+        <div className="container" style={{height: "100%"}}>
+            <div className="row" style={{height:"100%", display:'flex', alignItems: 'center', justifyContent: "center"}}>
+                <div className="col col--4">
+                    <img src={img} style={{display: "block", margin: "0 auto"}}></img>
+                </div>
+                <div className="col col--4" style={{textAlign: "center"}}>
+                    <h1>{title}</h1>
+                    <p>{message}</p>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function DeckPage () {
+    let {site, username} = useParams();
+    let body;
+
+    let supported_sites = ["mal", "anilist"]
+
+    if (supported_sites.includes(site)){
+        body = (<ResultPage username={username} site={site}></ResultPage>)
+    } else {
+        body =  (<ErrorPage message="Unsupported anime tracking site!" />)
+    }
+
+    return body
+
+}
+
+
 
 export default function Search(){
     let match = useRouteMatch();
     return (
-        <div>
+        <>
         <Switch>
             <Route path={`${match.path}/:site/:username`}>
-                <DeckPage ></DeckPage>
+                <DeckPage>
+                </DeckPage>
             </Route>
 
             <Route path={match.path}>
-                <h3>HELLO THERE :3</h3>
+                <ErrorPage 
+                    img={require('@site/static/img/character_sad.png').default}
+                    message="Please fill the form above to get your recommendations!"
+                />
             </Route>
 
         </Switch>
-    </div>
+    </>
     )
 };

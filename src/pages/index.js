@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
@@ -8,25 +8,26 @@ import HomepageFeatures from '../components/HomepageFeatures';
 import HomepageFocus from '../components/HomepageFocus';
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const [username, set_username] = useState("");
+
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner, styles.discovery)}>
       <div className="container">
         <h1 className="hero__title" style={{color: "white"}}>Discover New Anime</h1>
         
-        <input type="text" style={{marginBottom: "30px"}}></input>
+        <input type="text" style={{marginBottom: "30px"}} value={username} onChange={(ev)=> set_username(ev.target.value)}></input>
 
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro"
+            to={`/search/mal/${username}`}
             style={{marginRight: "5px", minWidth: "200px"}}
             >
             MyAnimeList 
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro"
+            to={`/search/anilist/${username}`}
             style={{marginLeft: "5px", minWidth: "200px"}}>
             Anilist
           </Link>
