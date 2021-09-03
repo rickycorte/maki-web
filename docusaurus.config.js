@@ -26,12 +26,17 @@ module.exports = {
         src: 'img/logo.svg',
       },
       items: [
+        { 
+          to: '/search',
+          position: 'left',
+          label: 'Discover',
+        },
         {
           type: 'doc',
           docId: 'intro',
           position: 'left',
           label: 'Documentation',
-        }
+        },
       ],
     },
     footer: {
