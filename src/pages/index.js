@@ -45,7 +45,7 @@ export default function Home() {
         <HomepageFocus 
           title="Why Yasy?"
           desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae ex at lacus egestas elementum nec quis nulla.Suspendisse potenti. Phasellus eu tellus efficitur, hendrerit tortor at, finibus est.Quisque blandit dolor quis erat hendrerit porttitor."
-          img="../../static/img/character_happy.png">
+          img={require('@site/static/img/character_happy.png').default}>
         </HomepageFocus>
         <HomepageFeatures />
       </main>
