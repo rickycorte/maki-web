@@ -65,11 +65,18 @@ module.exports = {
         {
           title: 'More',
           items: [
-
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: 'Terms of Service',
+              to: '/tos',
             },
+            {
+              label: 'Privacy',
+              to: '/privacy',
+            },
+            {
+              label: 'Credits',
+              to: '/credits',
+            }
           ],
         },
       ],

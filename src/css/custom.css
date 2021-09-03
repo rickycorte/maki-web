@@ -26,3 +26,11 @@
 html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+a:hover {
+  color: #BF2326 !important;
+}
+
+.footer--dark {
+  background-color: #242526;
+}
