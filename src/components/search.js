@@ -99,14 +99,15 @@ function SearchBar({base_url, supported_sites}){
 
     return (
         <div className={clsx(styles.search_container)}>
-            <form onSubmit={onSubmit} style={{width: "95%"}}>
+            <a href="/" className={clsx(styles.search_container_btn)}><Icon>navigate_before</Icon></a>
+            <form onSubmit={onSubmit} style={{width: "92%"}}>
             <input type="text"
                 className={clsx(styles.search_container_topbar_input)}
                 value={username}
                 onChange={(ev)=>set_username(ev.target.value)}
             />
             </form>    
-            <a onClick={onFilterButtonClick} className={clsx(styles.search_container_filter_btn)}><Icon>settings</Icon></a>
+            <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>settings</Icon></a>
         </div>
     )
 }
