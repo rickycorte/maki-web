@@ -1,5 +1,8 @@
-import React from 'react';
-import {Switch, Route, useRouteMatch, useParams} from '@docusaurus/router'
+import React, { useState } from 'react';
+import {Switch, Route, useRouteMatch, useParams, useHistory} from '@docusaurus/router'
+import styles from './search.module.css';
+import clsx from 'clsx';
+import { Icon, IconButton } from '@material-ui/core';
 
 
 class ResultPage extends React.Component {
@@ -47,38 +50,88 @@ function ErrorPage ({img, title, message}){
     )
 }
 
-function DeckPage () {
-    let {site, username} = useParams();
+
+function DeckPage ({supported_sites}) {
+    let {o_site, o_username} = useParams();
     let body;
 
-    let supported_sites = ["mal", "anilist"]
-
-    if (supported_sites.includes(site)){
-        body = (<ResultPage username={username} site={site}></ResultPage>)
+    if (supported_sites.includes(o_site)){
+        body = (
+        <>
+            <ResultPage username={o_username} site={o_site}></ResultPage>
+        </>
+        )
     } else {
-        body =  (<ErrorPage message="Unsupported anime tracking site!" />)
+        body =  (
+        <>
+            <ErrorPage message="Unsupported anime tracking site! Please check what you did and try again!" />
+        </>
+        )
     }
 
     return body
 
 }
 
+/***********************************************************************************/
 
+function SearchBar({base_url, supported_sites}){
+
+
+    let {o_site, o_username} = useParams();
+    let site_ok = o_site != null && supported_sites.includes(o_site.toLowerCase())
+
+    const [username, set_username] = useState(o_username == null || !site_ok ? "" : o_username);
+    const [site, set_site] = useState(site_ok ? o_site.toLowerCase() : supported_sites[0]);
+
+    const history = useHistory();
+
+
+    const onFilterButtonClick = (ev) => {
+        ev.preventDefault()
+        console.log("Filter button clicked")
+    }
+
+    const onSubmit = (ev) => {
+        ev.preventDefault();
+        history.push(`${base_url}/${site}/${username}`);
+    }
+
+    return (
+        <div className={clsx(styles.search_container)}>
+            <form onSubmit={onSubmit} style={{width: "95%"}}>
+            <input type="text"
+                className={clsx(styles.search_container_topbar_input)}
+                value={username}
+                onChange={(ev)=>set_username(ev.target.value)}
+            />
+            </form>    
+            <a onClick={onFilterButtonClick} className={clsx(styles.search_container_filter_btn)}><Icon>settings</Icon></a>
+        </div>
+    )
+}
+
+
+/***********************************************************************************/
 
 export default function Search(){
     let match = useRouteMatch();
+
+    const supported_sites = ["mal", "anilist"]
+
     return (
         <>
         <Switch>
-            <Route path={`${match.path}/:site/:username`}>
-                <DeckPage>
-                </DeckPage>
+            <Route path={`${match.path}/:o_site/:o_username`}>
+                <SearchBar base_url={match.path} supported_sites={supported_sites} />
+                <DeckPage supported_sites={supported_sites} />
             </Route>
 
             <Route path={match.path}>
+                <SearchBar base_url={match.path} supported_sites={supported_sites} />
                 <ErrorPage 
                     img={require('@site/static/img/character_sad.png').default}
-                    message="Please fill the form above to get your recommendations!"
+                    message="Please write your username above to get your recommendations!"
                 />
             </Route>
 
