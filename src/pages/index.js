@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
@@ -9,6 +9,12 @@ import HomepageFocus from '../components/HomepageFocus';
 
 function HomepageHeader() {
   const [username, set_username] = useState("");
+
+  const preventSearchWithEmptyUsername = (ev) => {
+      if (username === "") {
+        ev.preventDefault()
+      }
+    }
 
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner, styles.discovery)}>
@@ -21,14 +27,15 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to={`/search/mal/${username}`}
-            style={{marginRight: "5px", minWidth: "200px"}}
+            onClick={preventSearchWithEmptyUsername}
+            style={{marginRight: "5px", minWidth: "180px"}}
             >
             MyAnimeList 
           </Link>
           <Link
             className="button button--secondary button--lg"
             to={`/search/anilist/${username}`}
-            style={{marginLeft: "5px", minWidth: "200px"}}>
+            style={{marginLeft: "5px", minWidth: "180px"}}>
             Anilist
           </Link>
         </div>
