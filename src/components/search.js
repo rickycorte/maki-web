@@ -208,11 +208,11 @@ function SearchBar({base_url, supported_sites}){
     }
 
     return (
-        <div className={clsx(styles.search_container)}>
-            <a href="/" className={clsx(styles.search_container_btn)}><Icon>navigate_before</Icon></a>
+        <div className={styles.search_container}>
+            <a href="/" className={styles.search_container_btn}><Icon>navigate_before</Icon></a>
             <form onSubmit={onSubmit} style={{flexGrow: 1}}>
             <input type="text"
-                className={clsx(styles.search_container_topbar_input)}
+                className={styles.search_container_topbar_input}
                 value={username}
                 onChange={(ev)=>set_username(ev.target.value)}
                 placeholder={`${site} username`}
@@ -232,7 +232,6 @@ export default function Search(){
     const supported_sites = ["mal", "anilist"]
 
     return (
-        <>
         <Switch>
             <Route path={`${match.path}/:o_site/:o_username`}>
                 <SearchBar base_url={match.path} supported_sites={supported_sites} />
@@ -248,6 +247,5 @@ export default function Search(){
             </Route>
 
         </Switch>
-    </>
     )
 };
