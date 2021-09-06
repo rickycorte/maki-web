@@ -210,7 +210,7 @@ function SearchBar({base_url, supported_sites}){
     return (
         <div className={clsx(styles.search_container)}>
             <a href="/" className={clsx(styles.search_container_btn)}><Icon>navigate_before</Icon></a>
-            <form onSubmit={onSubmit} style={{width: "90%"}}>
+            <form onSubmit={onSubmit} style={{flexGrow: 1}}>
             <input type="text"
                 className={clsx(styles.search_container_topbar_input)}
                 value={username}
