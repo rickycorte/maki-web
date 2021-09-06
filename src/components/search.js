@@ -2,24 +2,76 @@ import React, { useState } from 'react';
 import {Switch, Route, useRouteMatch, useParams, useHistory} from '@docusaurus/router'
 import styles from './search.module.css';
 import clsx from 'clsx';
-import { Icon, IconButton } from '@material-ui/core';
+import { CircularProgress, Icon } from '@material-ui/core';
+
+
+function Card({title, mal, anilist, cover, format, release_year, affinity}) {
+
+    return (
+        <div className={clsx("col col--4", styles.card)}>
+            {title ? title : <Skeleton variant="rect"/>}
+        </div>
+    )
+}
 
 
 class ResultPage extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            loading: false,
+            data : { "recommendations": [{title:"test", mal: "1", anilist:"1", "cover":"", format:"tv", release_year: 1234, affinity: 8.8}]},
+            error: false,
+            error_msg: ""
+        }
+
+
     }
 
+    start_fetch() {
+        fetch(`https://yasu.lewdostrello.xyz/anime/${this.props.site}/${this.props.username}?k=12`)
+        .then(response => response.json())
+        .then(fetch_data => {
+        this.setState({data: fetch_data, loading: false, error: false})
+        })
+        .catch(error => {
+            if (typeof error.json === "function") {
+                error.json().then(jsonErr => {
+                    this.setState({error: true, error_msg: jsonErr["error:"]}) //TODO: fix backend  
+                });
+            } else{
+                this.setState({error: true, error_msg: "Right now I'm unable to reply to you. Retry later!"})
+            }
+        })
+    }
 
     render() {
-        return (
-            <>
-            <h1>Hi there {this.props.username} looking for {this.props.site}?</h1>
+        let body;
 
-            <h2>Too bad a raccoon ate {this.props.site}</h2>
-            </>
-        );
+        if(this.state.error){
+            body = <ErrorPage message={this.state.error_msg} />
+        } else {
+            if(this.state.loading ) {
+                body = (
+                    <div style={{width: "100%", height:"100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <CircularProgress/>
+                    </div>
+                )
+            }else {
+                body = (
+                    <div className={styles.card_container}>
+                        <div className="row" style={{width: "100%"}}>
+                            { this.state.data["recommendations"].map((data => {return <Card key={data.anilist} {...data} />})) }
+                        </div>
+                    </div>
+                )
+            }
+        }
+
+
+        return body;
     }
 }
 
@@ -55,17 +107,18 @@ function DeckPage ({supported_sites}) {
     let {o_site, o_username} = useParams();
     let body;
 
-    if (supported_sites.includes(o_site)){
-        body = (
-        <>
-            <ResultPage username={o_username} site={o_site}></ResultPage>
-        </>
-        )
+
+    if (!supported_sites.includes(o_site)){
+        body =  <ErrorPage message="Unsupported anime tracking site! Please check what you did and try again!" />
+
+    } else if(!o_username.match(/^[a-zA-Z0-9_]{3,20}$/g)){
+        body =  <ErrorPage message="Invalid username! Please check what you did and try again!" />
     } else {
-        body =  (
-        <>
-            <ErrorPage message="Unsupported anime tracking site! Please check what you did and try again!" />
-        </>
+        body = (
+            <ResultPage
+                username={o_username}
+                site={o_site} 
+            />
         )
     }
 

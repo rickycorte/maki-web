@@ -52,3 +52,7 @@ a:hover {
 .hero {
   background-color: #BF2326 !important;
 }
+
+.MuiCircularProgress-colorPrimary {
+  color: #BF2326 !important;
+}
