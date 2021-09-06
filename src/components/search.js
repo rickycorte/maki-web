@@ -181,7 +181,7 @@ function SearchBar({base_url, supported_sites}){
                 onChange={(ev)=>set_username(ev.target.value)}
             />
             </form>    
-            <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>settings</Icon></a>
+            <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>filter_alt</Icon></a>
         </div>
     )
 }
