@@ -5,6 +5,25 @@ import clsx from 'clsx';
 import { CircularProgress, Icon} from '@material-ui/core';
 
 
+const eventPipe = {
+
+    on(event, callback) {
+        document.addEventListener(event, (e) => callback(e.detail));
+    },
+  
+    send(event, data) {
+        document.dispatchEvent(new CustomEvent(event, data));
+    },
+  
+    remove(event, callback) {  
+        document.removeEventListener(event, callback);
+    },
+  
+  };
+
+
+/***********************************************************************************/
+
 function Card({title, mal, anilist, cover_url, format, release_year, affinity}) {
 
     return (
@@ -32,6 +51,7 @@ function Card({title, mal, anilist, cover_url, format, release_year, affinity}) 
 }
 
 
+
 class ResultPage extends React.Component {
 
     constructor(props) {
@@ -44,11 +64,23 @@ class ResultPage extends React.Component {
             error_msg: ""
         }
 
-
         this.start_fetch()
-
     }
 
+    componentDidMount() {
+        
+
+        eventPipe.on("refresh_recommendations", (data) => {
+            if(this.state.loading) return;
+
+            console.log("Refreshing submit page");
+            this.start_fetch();
+        });
+    }
+
+    componentWillUnmount() {
+        eventPipe.remove("refresh_recommendations");
+    }
 
     start_fetch() {
         console.log("Starting recommendation fetch")
@@ -168,17 +200,22 @@ function SearchBar({base_url, supported_sites}){
 
     const onSubmit = (ev) => {
         ev.preventDefault();
-        history.push(`${base_url}/${site}/${username}`);
+        let next_url = `${base_url}/${site}/${username}`
+        history.push(next_url);
+        if(location.pathname === next_url ) {
+            eventPipe.send("refresh_recommendations", null)
+        }
     }
 
     return (
         <div className={clsx(styles.search_container)}>
             <a href="/" className={clsx(styles.search_container_btn)}><Icon>navigate_before</Icon></a>
-            <form onSubmit={onSubmit} style={{width: "92%"}}>
+            <form onSubmit={onSubmit} style={{width: "90%"}}>
             <input type="text"
                 className={clsx(styles.search_container_topbar_input)}
                 value={username}
                 onChange={(ev)=>set_username(ev.target.value)}
+                placeholder={`${site} username`}
             />
             </form>    
             <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>filter_alt</Icon></a>
