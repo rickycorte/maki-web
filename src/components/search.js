@@ -2,14 +2,31 @@ import React, { useState } from 'react';
 import {Switch, Route, useRouteMatch, useParams, useHistory} from '@docusaurus/router'
 import styles from './search.module.css';
 import clsx from 'clsx';
-import { CircularProgress, Icon } from '@material-ui/core';
+import { CircularProgress, Icon} from '@material-ui/core';
 
 
-function Card({title, mal, anilist, cover, format, release_year, affinity}) {
+function Card({title, mal, anilist, cover_url, format, release_year, affinity}) {
 
     return (
-        <div className={clsx("col col--4", styles.card)}>
-            {title ? title : <Skeleton variant="rect"/>}
+        <div className={clsx(styles.card)}>
+            <div className={styles.card_body}>
+                <img src={cover_url} />
+                <div className={styles.card_side}>
+                    <h3>{title}</h3>
+                    <div className={styles.desc_text}>
+                        <Icon>podcasts</Icon>
+                        <span style={{marginLeft: "5px"}}>{format.toUpperCase()} - {release_year}</span>
+                    </div>
+                    <div className={styles.desc_text}>
+                        <Icon>favorite</Icon>
+                        <span style={{marginLeft: "5px"}}>Affinity: {affinity.toFixed(2)}</span>
+                    </div>
+                    <div className={styles.card_side_bottom}>
+                        <a href={`https://anilist.co/anime/${anilist}`}>AniList</a>
+                        <a href={`https://myanimelist.net/anime/${mal}`}>MyAnimeList</a>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
@@ -21,20 +38,25 @@ class ResultPage extends React.Component {
         super(props);
 
         this.state = {
-            loading: false,
-            data : { "recommendations": [{title:"test", mal: "1", anilist:"1", "cover":"", format:"tv", release_year: 1234, affinity: 8.8}]},
+            loading: true,
+            data : { },
             error: false,
             error_msg: ""
         }
 
 
+        this.start_fetch()
+
     }
 
+
     start_fetch() {
+        console.log("Starting recommendation fetch")
         fetch(`https://yasu.lewdostrello.xyz/anime/${this.props.site}/${this.props.username}?k=12`)
         .then(response => response.json())
         .then(fetch_data => {
         this.setState({data: fetch_data, loading: false, error: false})
+        console.log("fetched")
         })
         .catch(error => {
             if (typeof error.json === "function") {
@@ -50,6 +72,7 @@ class ResultPage extends React.Component {
     render() {
         let body;
 
+
         if(this.state.error){
             body = <ErrorPage message={this.state.error_msg} />
         } else {
@@ -62,9 +85,7 @@ class ResultPage extends React.Component {
             }else {
                 body = (
                     <div className={styles.card_container}>
-                        <div className="row" style={{width: "100%"}}>
                             { this.state.data["recommendations"].map((data => {return <Card key={data.anilist} {...data} />})) }
-                        </div>
                     </div>
                 )
             }
