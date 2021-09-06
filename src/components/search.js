@@ -41,8 +41,8 @@ function Card({title, mal, anilist, cover_url, format, release_year, affinity}) 
                         <span style={{marginLeft: "5px"}}>Affinity: {affinity.toFixed(2)}</span>
                     </div>
                     <div className={styles.card_side_bottom}>
-                        <a href={`https://anilist.co/anime/${anilist}`}>AniList</a>
-                        <a href={`https://myanimelist.net/anime/${mal}`}>MyAnimeList</a>
+                        <a href={`https://anilist.co/anime/${anilist}`} target="_blank" rel="noopener noreferrer">AniList</a>
+                        <a href={`https://myanimelist.net/anime/${mal}`} target="_blank" rel="noopener noreferrer">MyAnimeList</a>
                     </div>
                 </div>
             </div>
