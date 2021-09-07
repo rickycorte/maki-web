@@ -81,7 +81,7 @@ function Card({title, mal, anilist, cover_url, format, release_year, affinity}) 
 
 
 
-class ResultPage extends React.Component {
+class CardResultPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -113,7 +113,16 @@ class ResultPage extends React.Component {
 
     start_fetch() {
         console.log("Starting recommendation fetch")
-        fetch(`https://yasu.lewdostrello.xyz/anime/${this.props.site}/${this.props.username}?k=12`)
+        let url = `https://yasu.lewdostrello.xyz/anime/${this.props.site}/${this.props.username}?k=12`;
+
+        //add filters to the url
+        this.props.filters.forEach((filter) =>{
+            //suppose the item is made like {"<filter name>" : <value>}
+            let f_name = Object.keys(filter)[0];
+            url += `&${f_name}=${filter[f_name]}`;
+        });
+
+        fetch(url)
         .then(response => response.json())
         .then(fetch_data => {
         this.setState({data: fetch_data, loading: false, error: false})
@@ -135,7 +144,7 @@ class ResultPage extends React.Component {
 
 
         if(this.state.error){
-            body = <ErrorPage message={this.state.error_msg} />
+            body = <ErrorPageBody message={this.state.error_msg} />
         } else {
             if(this.state.loading ) {
                 body = (
@@ -158,41 +167,9 @@ class ResultPage extends React.Component {
 }
 
 
-
-function DeckPage ({supported_sites}) {
-    let {o_site, o_username} = useParams();
-    let body;
-
-    if (!supported_sites.includes(o_site)){
-        body =  <ErrorPage message="Unsupported anime tracking site! Please check what you did and try again!" />
-
-    } else if(!o_username.match(/^[a-zA-Z0-9_]{3,20}$/g)){
-        body =  <ErrorPage message="Invalid username! Please check what you did and try again!" />
-    } else {
-        body = (
-            <ResultPage
-                username={o_username}
-                site={o_site} 
-            />
-        )
-    }
-
-    return body
-
-}
-
 /***********************************************************************************/
 
-function SearchBar({base_url}){
-
-
-    let {o_site, o_username} = useParams();
-    let site_ok = o_site != null && supported_sites.includes(o_site.toLowerCase())
-
-    const [username, set_username] = useState(o_username == null || !site_ok ? "" : o_username);
-    const [site, set_site] = useState(site_ok ? o_site.toLowerCase() : supported_sites[0]);
-
-    console.log(`${o_site} -> ${site}`)
+function SearchBar({base_url, username, site, filters, update_parent_state}){
 
     const history = useHistory();
 
@@ -218,7 +195,7 @@ function SearchBar({base_url}){
             <input type="text"
                 className={styles.search_container_topbar_input}
                 value={username}
-                onChange={(ev)=>set_username(ev.target.value)}
+                onChange={(ev)=>update_parent_state("username", ev.target.value)}
                 placeholder={`${site} username`}
             />
             </form>    
@@ -233,17 +210,24 @@ function SearchBar({base_url}){
 function SearchParameterWrapper({match_url}) {
     let {site, username} = useParams();
     let query = new URLSearchParams(location.search);
+    console
 
     let filters = [];
-    for(let f in supported_filters) {
-        let q =query.get(f)
-        if(q != null && q !== "") {
-            filters.push({f: q})
+    supported_filters.forEach(f => {
+        let q = query.get(f)
+        if(q != null && q !== "") 
+        {
+            let filter = {};
+            filter[f] = q;
+            filters.push(filter);
         }
-    }
+    });
+
+
+    console.log(filters)
 
     // check for data errors
-    const is_site_ok = site != null && search_config.supported_sites.includes(site.toLowerCase());
+    const is_site_ok = site != null && supported_sites.includes(site.toLowerCase());
     const is_username_ok = username != null && username.match(/^[a-zA-Z0-9_]{3,20}$/g);
 
     //TODO: check filters
@@ -302,12 +286,15 @@ function SearchParameterWrapper({match_url}) {
         <>
             <SearchBar 
                 base_url = {match_url}
-                ext_username = {current_username}
-                ext_site = {current_site}
-                ext_filters = {current_filters}
+                username = {current_username}
+                site = {current_site}
+                filters = {current_filters}
                 update_parent_state = {update_state}
             />
-            {current_error.show ? <ErrorPageBody {...current_error}/> : <h1>YES :3</h1>}
+            { current_error.show ? 
+                <ErrorPageBody {...current_error}/>
+                : 
+                <CardResultPage username={current_username} site={current_site} filters={current_filters} />}
         </>
     )
 
@@ -323,11 +310,11 @@ export default function Search() {
 
     return (
         <Switch>
-            <Route path={`${match.path}/:o_site/:o_username`}>
+            <Route path={`${match.path}/:site/:username`}>
                 <SearchParameterWrapper match_url={match.path} />
             </Route>
 
-            <Route path={`${match.path}/:o_site`}>
+            <Route path={`${match.path}/:site`}>
                 <SearchParameterWrapper match_url={match.path} />
             </Route>
 
