@@ -181,9 +181,21 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
 
     const onSubmit = (ev) => {
         ev.preventDefault();
+
         let next_url = `${base_url}/${site}/${username}`
+        let should_refresh = location.pathname === next_url; // check if must refrash by comparing the base urls
+            
+        // add fiters
+        filters.forEach((filter) =>{
+            //suppose the item is made like {"<filter name>" : <value>}
+            let f_name = Object.keys(filter)[0];
+            next_url += `&${f_name}=${filter[f_name]}`;
+        });
+
+        next_url = next_url.replace(/&/g, "?"); // replace first & with ? in the link
+
         history.push(next_url);
-        if(location.pathname === next_url ) {
+        if(should_refresh) {
             eventPipe.send("refresh_recommendations", null)
         }
     }
@@ -224,7 +236,7 @@ function SearchParameterWrapper({match_url}) {
     });
 
 
-    console.log(filters)
+    console.log("Re-render page")
 
     // check for data errors
     const is_site_ok = site != null && supported_sites.includes(site.toLowerCase());
