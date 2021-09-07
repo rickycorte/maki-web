@@ -3,7 +3,9 @@ import {Switch, Route, useRouteMatch, useParams, useHistory} from '@docusaurus/r
 import styles from './search.module.css';
 import clsx from 'clsx';
 import { CircularProgress, Icon} from '@material-ui/core';
+import { supported_sites, supported_filters} from '../../search.config'
 
+/***********************************************************************************/
 
 const eventPipe = {
 
@@ -21,6 +23,33 @@ const eventPipe = {
   
   };
 
+/************************************************************************************/
+
+function ErrorPageBody ({img, title, message}){
+    if (message == null){
+        message = "Something went wrong with your request!"
+    }
+    if(title == null) {
+        title = "Wait Sen(pi)!?!?"
+    }
+    if(img == null) {
+        img = require('@site/static/img/character_frightened.png').default
+    }
+
+    return (
+        <div className="container" style={{height: "100%"}}>
+            <div className="row" style={{height:"100%", display:'flex', alignItems: 'center', justifyContent: "center"}}>
+                <div className="col col--4">
+                    <img src={img} style={{display: "block", margin: "0 auto"}}></img>
+                </div>
+                <div className="col col--4" style={{textAlign: "center"}}>
+                    <h1>{title}</h1>
+                    <p>{message}</p>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 /***********************************************************************************/
 
@@ -129,37 +158,10 @@ class ResultPage extends React.Component {
 }
 
 
-function ErrorPage ({img, title, message}){
-    if (message == null){
-        message = "Something went wrong with your request!"
-    }
-    if(title == null) {
-        title = "Wait Sen(pi)!?!?"
-    }
-    if(img == null) {
-        img = require('@site/static/img/character_frightened.png').default
-    }
-
-    return (
-        <div className="container" style={{height: "100%"}}>
-            <div className="row" style={{height:"100%", display:'flex', alignItems: 'center', justifyContent: "center"}}>
-                <div className="col col--4">
-                    <img src={img} style={{display: "block", margin: "0 auto"}}></img>
-                </div>
-                <div className="col col--4" style={{textAlign: "center"}}>
-                    <h1>{title}</h1>
-                    <p>{message}</p>
-                </div>
-            </div>
-        </div>
-    )
-}
-
 
 function DeckPage ({supported_sites}) {
     let {o_site, o_username} = useParams();
     let body;
-
 
     if (!supported_sites.includes(o_site)){
         body =  <ErrorPage message="Unsupported anime tracking site! Please check what you did and try again!" />
@@ -181,7 +183,7 @@ function DeckPage ({supported_sites}) {
 
 /***********************************************************************************/
 
-function SearchBar({base_url, supported_sites}){
+function SearchBar({base_url}){
 
 
     let {o_site, o_username} = useParams();
@@ -189,6 +191,8 @@ function SearchBar({base_url, supported_sites}){
 
     const [username, set_username] = useState(o_username == null || !site_ok ? "" : o_username);
     const [site, set_site] = useState(site_ok ? o_site.toLowerCase() : supported_sites[0]);
+
+    console.log(`${o_site} -> ${site}`)
 
     const history = useHistory();
 
@@ -223,10 +227,96 @@ function SearchBar({base_url, supported_sites}){
     )
 }
 
+/************************************************************************************/
+
+// extract parameters from link and pass them down to the search page
+function SearchParameterWrapper({match_url}) {
+    let {site, username} = useParams();
+    let query = new URLSearchParams(location.search);
+
+    let filters = [];
+    for(let f in supported_filters) {
+        let q =query.get(f)
+        if(q != null && q !== "") {
+            filters.push({f: q})
+        }
+    }
+
+    // check for data errors
+    const is_site_ok = site != null && search_config.supported_sites.includes(site.toLowerCase());
+    const is_username_ok = username != null && username.match(/^[a-zA-Z0-9_]{3,20}$/g);
+
+    //TODO: check filters
+
+    // setup shared page state 
+    const [current_username, set_username] = useState(is_site_ok && is_username_ok ? username : "");
+    const [current_site, set_site] = useState(is_site_ok ? site.toLowerCase() : supported_sites[0]);
+    const [current_filters, set_filters] = useState(filters);
+
+    // do checks and set error state later
+    let has_errors = false;
+    let error_msg = null;
+    let error_img = null;
+
+    // chose appropriate body to render based on the checks made before
+    if(username == null || site == null) 
+    {
+        has_errors = true;
+        error_msg = "Please write your username above to get your recommendations!";
+        error_img = require('@site/static/img/character_sad.png').default;
+    }
+    else if(!is_site_ok)
+    {
+        has_errors = true;
+        error_msg = "Unsupported anime tracking site! Please check what you did and try again!";
+    } 
+    else if(!is_username_ok)
+    {
+        has_errors = true;
+        error_msg = "Invalid username! Please check what you did and try again!";
+    }
+
+    const [current_error, set_error] = useState({show: has_errors, title: null, message: error_msg, img: error_img})
+
+
+    const update_state = (variable, value) => {
+        switch(variable) {
+            case "username":
+                set_username(value);
+                break;
+            case "site":
+                set_site(value);
+                break;
+            case "filters":
+                set_filters(value);
+                break;
+            case "error":
+                set_error(value);
+                break;
+            default:
+                console.error(`No state for ${variable}`)
+        }
+    }
+
+    return (
+        <>
+            <SearchBar 
+                base_url = {match_url}
+                ext_username = {current_username}
+                ext_site = {current_site}
+                ext_filters = {current_filters}
+                update_parent_state = {update_state}
+            />
+            {current_error.show ? <ErrorPageBody {...current_error}/> : <h1>YES :3</h1>}
+        </>
+    )
+
+}
+
 
 /***********************************************************************************/
 
-export default function Search(){
+export default function Search() {
     let match = useRouteMatch();
 
     const supported_sites = ["mal", "anilist"]
@@ -234,16 +324,15 @@ export default function Search(){
     return (
         <Switch>
             <Route path={`${match.path}/:o_site/:o_username`}>
-                <SearchBar base_url={match.path} supported_sites={supported_sites} />
-                <DeckPage supported_sites={supported_sites} />
+                <SearchParameterWrapper match_url={match.path} />
+            </Route>
+
+            <Route path={`${match.path}/:o_site`}>
+                <SearchParameterWrapper match_url={match.path} />
             </Route>
 
             <Route path={match.path}>
-                <SearchBar base_url={match.path} supported_sites={supported_sites} />
-                <ErrorPage 
-                    img={require('@site/static/img/character_sad.png').default}
-                    message="Please write your username above to get your recommendations!"
-                />
+                <SearchParameterWrapper match_url={match.path} />
             </Route>
 
         </Switch>
