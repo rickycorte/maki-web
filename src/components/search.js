@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import {Switch, Route, useRouteMatch, useParams, useHistory} from '@docusaurus/router'
+import {Switch, Route, useRouteMatch, useParams, useHistory, useLocation} from '@docusaurus/router'
 import styles from './search.module.css';
 import clsx from 'clsx';
 import { CircularProgress, Icon} from '@material-ui/core';
-import { supported_sites, supported_filters} from '../../search.config'
+import { supported_sites, supported_filters} from '../../search.config';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+import queryString from 'query-string'
 
 /***********************************************************************************/
 
@@ -172,14 +174,19 @@ class CardResultPage extends React.Component {
 function SearchBar({base_url, username, site, filters, update_parent_state}){
 
     const history = useHistory();
+    const isBrowser = useIsBrowser();
 
+    const [filter_open, set_filter_open] = useState(false);
 
     const onFilterButtonClick = (ev) => {
         ev.preventDefault()
+        set_filter_open(!filter_open)
         console.log("Filter button clicked")
     }
 
     const onSubmit = (ev) => {
+        if(!isBrowser) return;
+
         ev.preventDefault();
 
         let next_url = `${base_url}/${site}/${username}`
@@ -198,21 +205,27 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
         if(should_refresh) {
             eventPipe.send("refresh_recommendations", null)
         }
+
     }
 
     return (
-        <div className={styles.search_container}>
-            <a href="/" className={styles.search_container_btn}><Icon>navigate_before</Icon></a>
-            <form onSubmit={onSubmit} style={{flexGrow: 1}}>
-            <input type="text"
-                className={styles.search_container_topbar_input}
-                value={username}
-                onChange={(ev)=>update_parent_state("username", ev.target.value)}
-                placeholder={`${site} username`}
-            />
-            </form>    
-            <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>filter_alt</Icon></a>
+        <div>
+            <div className={styles.search_container}>
+                <a href="/" className={styles.search_container_btn}><Icon>navigate_before</Icon></a>
+                <form onSubmit={onSubmit} style={{flexGrow: 1}}>
+                <input type="text"
+                    className={styles.search_container_topbar_input}
+                    value={username}
+                    onChange={(ev)=>update_parent_state("username", ev.target.value)}
+                    placeholder={`${site} username`}
+                />
+                </form>    
+                <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>filter_alt</Icon></a>
+            </div>
+        <div className={clsx(styles.filter_container, {[styles.filter_container_open]: filter_open})}>
+            <h1>Hello there :3</h1>
         </div>
+       </div>
     )
 }
 
@@ -221,16 +234,15 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
 // extract parameters from link and pass them down to the search page
 function SearchParameterWrapper({match_url}) {
     let {site, username} = useParams();
-    let query = new URLSearchParams(location.search);
-    console
+    let location = useLocation();
+    let query_params = queryString.parse(location.search);
 
     let filters = [];
     supported_filters.forEach(f => {
-        let q = query.get(f)
-        if(q != null && q !== "") 
+        if(f in query_params)
         {
             let filter = {};
-            filter[f] = q;
+            filter[f] = query_params[f];
             filters.push(filter);
         }
     });

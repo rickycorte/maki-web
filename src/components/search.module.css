@@ -98,3 +98,13 @@
     margin-right: 10px;
     margin-left: 10px;
 }
+
+
+.filter_container {
+    flex: 1;
+    display: none;
+}
+
+.filter_container_open {
+    display: block;
+}
