@@ -114,9 +114,6 @@
 .toggle_button_group {
     display: flex;
     justify-content: center;
-    border: 2px solid white;
-    border-radius: 30px;
-
 }
 
 .toggle_button_group:not(:last-child) {
@@ -145,13 +142,19 @@
     cursor: pointer;
     float: left; 
     border: none;
+    font-size: 0.9em;
+
+    border: 2px solid white;
 }
 
 .toggle_button_group button:hover {
-background-color: #BF2326;
+    background-color: #BF2326;
+    border: 2px solid #BF2326;
 }
 
 .toggle_bnt_active{
     background-color: white !important;
     color: black !important;
+    cursor: auto !important;
+    border: 2px solid white !important;
 }
