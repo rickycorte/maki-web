@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Switch, Route, useRouteMatch, useParams, useHistory, useLocation} from '@docusaurus/router'
+import {Switch, Route, useRouteMatch, useHistory} from '@docusaurus/router'
 import styles from './search.module.css';
 import clsx from 'clsx';
 import { CircularProgress, Icon} from '@material-ui/core';
@@ -7,23 +7,6 @@ import { supported_sites, supported_filters, supported_sites_display, anime_form
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import queryString from 'query-string'
 
-/***********************************************************************************/
-
-const eventPipe = {
-
-    on(event, callback) {
-        document.addEventListener(event, (e) => callback(e.detail));
-    },
-  
-    send(event, data) {
-        document.dispatchEvent(new CustomEvent(event, data));
-    },
-  
-    remove(event, callback) {  
-        document.removeEventListener(event, callback);
-    },
-  
-  };
 
 /************************************************************************************/
 
@@ -87,77 +70,38 @@ class CardResultPage extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            loading: true,
-            data : { },
-            error: false,
-            error_msg: ""
-        }
-
-        this.start_fetch()
-    }
-
-    componentDidMount() {
-        
-
-        eventPipe.on("refresh_recommendations", (data) => {
-            if(this.state.loading) return;
-
-            console.log("Refreshing submit page");
-            this.start_fetch();
-        });
-    }
-
-    componentWillUnmount() {
-        eventPipe.remove("refresh_recommendations");
-    }
-
-    start_fetch() {
-        console.log("Starting recommendation fetch")
-        let url = `https://yasu.lewdostrello.xyz/anime/${this.props.site}/${this.props.username}?k=12`;
-
-        //add filters to the url
-        this.props.filters.forEach((filter) =>{
-            if(filter.enabled)
-                url += `&${filter.name}=${filter.value}`;
-        });
-        console.log(url);
-
-        fetch(url)
-        .then(response => response.json())
-        .then(fetch_data => {
-        this.setState({data: fetch_data, loading: false, error: false})
-        console.log("fetched")
-        })
-        .catch(error => {
-            if (typeof error.json === "function") {
-                error.json().then(jsonErr => {
-                    this.setState({error: true, error_msg: jsonErr["error:"]}) //TODO: fix backend  
-                });
-            } else{
-                this.setState({error: true, error_msg: "Right now I'm unable to reply to you. Retry later!"})
-            }
-        })
     }
 
     render() {
+
         let body;
 
+        console.log(this.props.data);
 
-        if(this.state.error){
-            body = <ErrorPageBody message={this.state.error_msg} />
-        } else {
-            if(this.state.loading ) {
-                body = (
-                    <div style={{width: "100%", height:"100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+        if(this.props.loading || this.props.data == null) 
+        {
+            body = (
+                <div style={{width: "100%", height:"100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                     <CircularProgress/>
+                </div>
+            )
+        }
+        else
+        {
+            if(this.props.data.recommendations.length <= 0 )
+            {
+                body = (
+                    <div style={{width: "100%", height:"100%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
+                        <h1>ಥ﹏ಥ</h1>
+                        <p style={{margin: "10px"}}>I'm sorry, I can't find anything that you would like</p>
                     </div>
                 )
-            }else {
+            } 
+            else 
+            {
                 body = (
                     <div className={styles.card_container}>
-                            { this.state.data["recommendations"].map((data => {return <Card key={data.anilist} {...data} />})) }
+                            { this.props.data.recommendations.map((data => {return <Card key={data.anilist} {...data} />})) }
                     </div>
                 )
             }
@@ -241,7 +185,7 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
         next_url = next_url.replace("&", "?"); // replace first & with ? in the link
 
         history.push(next_url);
-        eventPipe.send("refresh_recommendations", null)
+        update_parent_state("should_fetch_new_data", true);
     }
 
     const filter_value = (name) => {
@@ -275,101 +219,172 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
                 </form>    
                 <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>filter_alt</Icon></a>
             </div>
-        <div className={clsx(styles.filter_container, {[styles.filter_container_open]: filter_open})}>
-            <SiteSelector site={site} set_site={(new_site) => {update_parent_state("site", new_site)}}/>
-            <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap"}}>
-                <div className={styles.filter_box}>
-                    <ToggableSelect 
-                        className="test"
-                        display_text="Format"
-                        selected_item_val={filter_value("format")}
-                        items={anime_formats} 
-                        set_value={(new_value)=>update_parent_state("filters", {name: "format", value: new_value})} 
-                    />
-                </div>
-                <div className={styles.filter_box}>
-                    <ToggableSelect 
-                        className="test"
-                        display_text="Genre"
-                        selected_item_val={filter_value("genre")}
-                        items={anime_genres} 
-                        set_value={(new_value)=>update_parent_state("filters", {name: "genre", value: new_value})} 
-                    />
+
+            <div className={clsx(styles.filter_container, {[styles.filter_container_open]: filter_open})}>
+                <SiteSelector site={site} set_site={(new_site) => {update_parent_state("site", new_site)}}/>
+                <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap"}}>
+                    <div className={styles.filter_box}>
+                        <ToggableSelect 
+                            className="test"
+                            display_text="Format"
+                            selected_item_val={filter_value("format")}
+                            items={anime_formats} 
+                            set_value={(new_value)=>update_parent_state("filters", {name: "format", value: new_value})} 
+                        />
+                    </div>
+                    <div className={styles.filter_box}>
+                        <ToggableSelect 
+                            className="test"
+                            display_text="Genre"
+                            selected_item_val={filter_value("genre")}
+                            items={anime_genres} 
+                            set_value={(new_value)=>update_parent_state("filters", {name: "genre", value: new_value})} 
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
        </div>
     )
 }
 
 /************************************************************************************/
 
-// extract parameters from link and pass them down to the search page
-function SearchParameterWrapper({match_url}) {
-    let {site, username} = useParams();
-    let location = useLocation();
-    let query_params = queryString.parse(location.search);
+class SearchParameterWrapper extends React.Component {
 
-    let filters = [];
-    supported_filters.forEach(f => {
-        if(f in query_params)
+    constructor(props) {
+        super(props);
+
+        this.update_state = this.update_state.bind(this);
+
+        //parse query params to extract filters
+        let query_params = queryString.parse(this.props.location.search);
+
+        let filters = [];
+        supported_filters.forEach(f => {
+            if(f in query_params)
+            {
+                filters.push({"name": f, "value": query_params[f], "enabled": true});
+            }
+        });
+
+        // get username and site from url path
+        const username = "username" in this.props.match.params ? this.props.match.params.username : "";
+        const site = "site" in this.props.match.params ? this.props.match.params.site : "";
+
+        /// generate a base state
+        this.state = {
+            username: username != null ? username : "",
+            site: site != null ? site.toLowerCase() : supported_sites[0],
+            filters: filters,
+            fetching_new_data: false,
+            error: {
+                show: true, // set error to not fire a request, later on when we mount the component we check for errors really
+                title: null,
+                message: "Please wait I'm breaking things right here...",
+                img: null,
+            }
+        };
+
+        console.log("page ready");
+    }
+
+    componentDidMount() {
+        this.try_data_fetch()
+    }
+
+    
+    show_error(message, image, title = null ) 
+    {
+        this.setState({error: { show: true, title: title,  message: message, img: image }});
+    }
+
+
+    validate_data() 
+    {
+        console.log(`Validating: ${this.state.username} - ${this.state.site}`)
+        // chose appropriate body to render based on the checks made before
+        if(this.state.username == "" || this.state.site == "") 
         {
-            filters.push({"name": f, "value": query_params[f], "enabled": true});
+            this.show_error(
+                "Please write your username above to get your recommendations!",
+                require('@site/static/img/character_sad.png').default
+            );
+
+             return false;
         }
-    });
 
+        if(!supported_sites.includes(this.state.site))
+        {
+            this.show_error("Unsupported anime tracking site! Please check what you did and try again!");
+            return false;
+        } 
 
-    console.log("Re-render page")
+        if(!this.state.username.match(/^[a-zA-Z0-9_]{3,20}$/g))
+        {
+            this.show_error("Invalid username! Please check what you did and try again!");
+            return false;
+        }
 
-    // setup shared page state 
-    const [current_username, set_username] = useState(username != null ? username : "");
-    const [current_site, set_site] = useState(site != null ? site.toLowerCase() : supported_sites[0]);
-    const [current_filters, set_filters] = useState(filters);
-
-    // do checks and set error state later
-    let has_errors = false;
-    let error_msg = null;
-    let error_img = null;
-
-    // check for data errors from url
-    let is_site_ok = current_site != null && supported_sites.includes(current_site);
-    let is_username_ok = current_username != null && current_username.match(/^[a-zA-Z0-9_]{3,20}$/g);
-
-
-    // chose appropriate body to render based on the checks made before
-    if(current_username == "" || current_site == "") 
-    {
-        has_errors = true;
-        error_msg = "Please write your username above to get your recommendations!";
-        error_img = require('@site/static/img/character_sad.png').default;
-    }
-    else if(!is_site_ok)
-    {
-        has_errors = true;
-        error_msg = "Unsupported anime tracking site! Please check what you did and try again!";
-    } 
-    else if(!is_username_ok)
-    {
-        has_errors = true;
-        error_msg = "Invalid username! Please check what you did and try again!";
-    } else {
-        has_errors = false;
+        this.setState({error: {show: false}});
+        return true;
     }
 
-    const [current_error, set_error] = useState({show: has_errors, title: null, message: error_msg, img: error_img})
+
+    fetch_data() {
+        console.log("Starting recommendation fetch")
+        let url = `https://yasu.lewdostrello.xyz/anime/${this.state.site}/${this.state.username}?k=12`;
+
+        //add filters to the url
+        this.state.filters.forEach((filter) =>{
+            if(filter.enabled)
+                url += `&${filter.name}=${filter.value}`;
+        });
+        console.log(`Calling API: ${url}`);
+
+        fetch(url)
+        .then(response => {
+            switch (response.status)
+            {
+                case 200:
+                    response.json().then((data) => this.setState({fetched_data: data, fetching_new_data: false}) );
+                    break;
+                case 429:
+                    this.show_error("Slow donw a bit sen(pi)! I' can't follow you!");
+                    break;
+                case 400:
+                    response.json().then((data) => this.show_error(data["error:"]) ); //TODO: fix backend typo
+                    break;
+                default:
+                    this.show_error("Right now I'm unable to reply to you. Retry later!");
+                    break;          
+            } 
+            
+        }).catch(error => {
+            this.show_error("Right now I'm unable to reply to you. Retry later!")
+        })
+    }
 
 
-    const update_state = (variable, value) => {
+    try_data_fetch(){
+        if(this.validate_data()){
+            this.fetch_data()
+        }
+    }
+
+
+    update_state(variable, value)
+    {
         switch(variable) {
             case "username":
-                set_username(value);
+                this.setState({username: value});
                 break;
+
             case "site":
-                set_site(value);
+                this.setState({site: value});
                 break;
             case "filters":
                 // make copy
-                let new_filters = [...current_filters]
+                let new_filters = [...this.state.filters]
                 let updated_filter = false;
                 // update values
                 new_filters.forEach(f => {
@@ -386,33 +401,44 @@ function SearchParameterWrapper({match_url}) {
                     new_filters.push(value);
                 }
 
-                console.log(new_filters)
+                this.setState({filters: new_filters});
+                break;
+            
+            case "should_fetch_new_data":
+                this.setState({fetching_new_data: value})
+                this.try_data_fetch()
+                break;
 
-                set_filters(new_filters);
-                break;
             case "error":
-                set_error(value);
+                this.setState({error: value});
                 break;
+
             default:
                 console.error(`No state for ${variable}`)
         }
     }
 
-    return (
+    render() {
+
+        return (
         <>
             <SearchBar 
-                base_url = {match_url}
-                username = {current_username}
-                site = {current_site}
-                filters = {current_filters}
-                update_parent_state = {update_state}
+                base_url = {this.props.url}
+                username = {this.state.username}
+                site = {this.state.site}
+                filters = {this.state.filters}
+                update_parent_state = {this.update_state}
             />
-            { current_error.show ? 
-                <ErrorPageBody {...current_error}/>
+            { this.state.error.show ? 
+                <ErrorPageBody {...this.state.error}/>
                 : 
-                <CardResultPage username={current_username} site={current_site} filters={current_filters} />}
+                <CardResultPage 
+                    loading={this.state.fetching_new_data}
+                    data={this.state.fetched_data}
+                />}
         </>
-    )
+        )
+    }
 
 }
 
@@ -424,8 +450,9 @@ export default function Search() {
 
     return (
         <Switch>
-            <Route path={`${match.path}/:site?/:username?`}>
-                <SearchParameterWrapper match_url={match.path} />
+            <Route 
+                path={`${match.path}/:site?/:username?`} 
+                render={(props) => <SearchParameterWrapper {...props} url={match.path}></SearchParameterWrapper>}>
             </Route>
 
         </Switch>
