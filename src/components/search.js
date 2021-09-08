@@ -119,9 +119,7 @@ class CardResultPage extends React.Component {
 
         //add filters to the url
         this.props.filters.forEach((filter) =>{
-            //suppose the item is made like {"<filter name>" : <value>}
-            let f_name = Object.keys(filter)[0];
-            url += `&${f_name}=${filter[f_name]}`;
+            url += `&${filter.name}=${filter.value}`;
         });
 
         fetch(url)
@@ -177,12 +175,22 @@ function SiteSelector({site, set_site}) {
             {
                 supported_sites.map((e) => {
                     return (
-                        <button onClick={()=>set_site(e)} className={clsx({[styles.toggle_bnt_active]: site === e})}>{supported_sites_display[e]}</button>
+                        <button 
+                            onClick={()=>set_site(e)}
+                            className={clsx({[styles.toggle_bnt_active]: site === e})}
+                            key={e}
+                        >
+                                {supported_sites_display[e]}
+                        </button>
                     );
                 })
             }
         </div>
     )
+}
+
+function toggableSelect({}) {
+
 }
 
 
@@ -209,9 +217,7 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
             
         // add fiters
         filters.forEach((filter) =>{
-            //suppose the item is made like {"<filter name>" : <value>}
-            let f_name = Object.keys(filter)[0];
-            next_url += `&${f_name}=${filter[f_name]}`;
+            next_url += `&${filter.name}=${filter.value}`;
         });
 
         next_url = next_url.replace(/&/g, "?"); // replace first & with ? in the link
@@ -256,9 +262,7 @@ function SearchParameterWrapper({match_url}) {
     supported_filters.forEach(f => {
         if(f in query_params)
         {
-            let filter = {};
-            filter[f] = query_params[f];
-            filters.push(filter);
+            filters.push({"name": f, "value": query_params[f], "enabled": true});
         }
     });
 
