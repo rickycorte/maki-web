@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {Switch, Route, useRouteMatch, useHistory} from '@docusaurus/router'
 import styles from './search.module.css';
 import clsx from 'clsx';
-import { CircularProgress, Icon} from '@material-ui/core';
+import { Button, CircularProgress, Icon} from '@material-ui/core';
 import { supported_sites, supported_filters, supported_sites_display, anime_formats, anime_genres} from '../../search.config';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import queryString from 'query-string'
@@ -221,27 +221,30 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
             </div>
 
             <div className={clsx(styles.filter_container, {[styles.filter_container_open]: filter_open})}>
-                <SiteSelector site={site} set_site={(new_site) => {update_parent_state("site", new_site)}}/>
-                <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap"}}>
-                    <div className={styles.filter_box}>
-                        <ToggableSelect 
-                            className="test"
-                            display_text="Format"
-                            selected_item_val={filter_value("format")}
-                            items={anime_formats} 
-                            set_value={(new_value)=>update_parent_state("filters", {name: "format", value: new_value})} 
-                        />
+                <form onSubmit={onSubmit}>
+                    <SiteSelector site={site} set_site={(new_site) => {update_parent_state("site", new_site)}}/>
+                    <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap"}}>
+                        <div className={styles.filter_box}>
+                            <ToggableSelect 
+                                className="test"
+                                display_text="Format"
+                                selected_item_val={filter_value("format")}
+                                items={anime_formats} 
+                                set_value={(new_value)=>update_parent_state("filters", {name: "format", value: new_value})} 
+                            />
+                        </div>
+                        <div className={styles.filter_box}>
+                            <ToggableSelect 
+                                className="test"
+                                display_text="Genre"
+                                selected_item_val={filter_value("genre")}
+                                items={anime_genres} 
+                                set_value={(new_value)=>update_parent_state("filters", {name: "genre", value: new_value})} 
+                            />
+                        </div>
                     </div>
-                    <div className={styles.filter_box}>
-                        <ToggableSelect 
-                            className="test"
-                            display_text="Genre"
-                            selected_item_val={filter_value("genre")}
-                            items={anime_genres} 
-                            set_value={(new_value)=>update_parent_state("filters", {name: "genre", value: new_value})} 
-                        />
-                    </div>
-                </div>
+                    <button className={styles.filter_submit_btn} type="submit">Apply Filters</button>
+                </form>
             </div>
        </div>
     )
