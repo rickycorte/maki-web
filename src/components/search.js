@@ -216,7 +216,8 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
                     onChange={(ev)=>update_parent_state("username", ev.target.value)}
                     placeholder={`${supported_sites_display[site]} Username`}
                 />
-                </form>    
+                </form>   
+                <a onClick={onSubmit} className={clsx(styles.search_container_btn)}><Icon>refresh</Icon></a> 
                 <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>filter_alt</Icon></a>
             </div>
 
