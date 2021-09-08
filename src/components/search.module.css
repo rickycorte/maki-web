@@ -118,6 +118,7 @@
     flex: 1;
     display: none;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .filter_container_open {
@@ -190,4 +191,8 @@
     text-align: center;
     text-align-last: center;
     padding: 10px 0;
+}
+
+.filter_select select:hover {
+    background-color: #BF2326;
 }

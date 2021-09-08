@@ -332,12 +332,12 @@ function SearchParameterWrapper({match_url}) {
     let error_img = null;
 
     // check for data errors from url
-    const is_site_ok = current_site != null && supported_sites.includes(current_site);
-    const is_username_ok = current_username != null && current_username.match(/^[a-zA-Z0-9_]{3,20}$/g);
+    let is_site_ok = current_site != null && supported_sites.includes(current_site);
+    let is_username_ok = current_username != null && current_username.match(/^[a-zA-Z0-9_]{3,20}$/g);
 
 
     // chose appropriate body to render based on the checks made before
-    if(current_username == null || current_site == null) 
+    if(current_username == "" || current_site == "") 
     {
         has_errors = true;
         error_msg = "Please write your username above to get your recommendations!";
@@ -352,6 +352,8 @@ function SearchParameterWrapper({match_url}) {
     {
         has_errors = true;
         error_msg = "Invalid username! Please check what you did and try again!";
+    } else {
+        has_errors = false;
     }
 
     const [current_error, set_error] = useState({show: has_errors, title: null, message: error_msg, img: error_img})
