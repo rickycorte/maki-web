@@ -3,7 +3,7 @@ import {Switch, Route, useRouteMatch, useParams, useHistory, useLocation} from '
 import styles from './search.module.css';
 import clsx from 'clsx';
 import { CircularProgress, Icon} from '@material-ui/core';
-import { supported_sites, supported_filters} from '../../search.config';
+import { supported_sites, supported_filters, supported_sites_display} from '../../search.config';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import queryString from 'query-string'
 
@@ -171,6 +171,21 @@ class CardResultPage extends React.Component {
 
 /***********************************************************************************/
 
+function SiteSelector({site, set_site}) {
+    return (
+        <div className={styles.toggle_button_group}>
+            {
+                supported_sites.map((e) => {
+                    return (
+                        <button onClick={()=>set_site(e)} className={clsx({[styles.toggle_bnt_active]: site === e})}>{supported_sites_display[e]}</button>
+                    );
+                })
+            }
+        </div>
+    )
+}
+
+
 function SearchBar({base_url, username, site, filters, update_parent_state}){
 
     const history = useHistory();
@@ -217,13 +232,13 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
                     className={styles.search_container_topbar_input}
                     value={username}
                     onChange={(ev)=>update_parent_state("username", ev.target.value)}
-                    placeholder={`${site} username`}
+                    placeholder={`${supported_sites_display[site]} Username`}
                 />
                 </form>    
                 <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>filter_alt</Icon></a>
             </div>
         <div className={clsx(styles.filter_container, {[styles.filter_container_open]: filter_open})}>
-            <h1>Hello there :3</h1>
+            <SiteSelector site={site} set_site={(new_site) => {update_parent_state("site", new_site)}}/>
         </div>
        </div>
     )
