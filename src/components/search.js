@@ -3,7 +3,7 @@ import {Switch, Route, useRouteMatch, useParams, useHistory, useLocation} from '
 import styles from './search.module.css';
 import clsx from 'clsx';
 import { CircularProgress, Icon} from '@material-ui/core';
-import { supported_sites, supported_filters, supported_sites_display} from '../../search.config';
+import { supported_sites, supported_filters, supported_sites_display, anime_formats, anime_genres} from '../../search.config';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import queryString from 'query-string'
 
@@ -119,8 +119,10 @@ class CardResultPage extends React.Component {
 
         //add filters to the url
         this.props.filters.forEach((filter) =>{
-            url += `&${filter.name}=${filter.value}`;
+            if(filter.enabled)
+                url += `&${filter.name}=${filter.value}`;
         });
+        console.log(url);
 
         fetch(url)
         .then(response => response.json())
@@ -189,8 +191,25 @@ function SiteSelector({site, set_site}) {
     )
 }
 
-function toggableSelect({}) {
-
+function ToggableSelect({display_text, selected_item_val, items, set_value}) {
+    items
+    return (
+        <div className={styles.filter_select}>
+            <select value={selected_item_val} onChange={(e) => set_value(e.target.value)}>
+                <option key="__default" value="__default">{display_text}</option>
+                {
+                    items.map((e) => {
+                        return (
+                           <option
+                            key={e.value}
+                            value={e.value}
+                           >{e.text}</option>
+                        );
+                    })
+                }
+            </select>
+        </div>
+    )
 }
 
 
@@ -213,19 +232,32 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
         ev.preventDefault();
 
         let next_url = `${base_url}/${site}/${username}`
-        let should_refresh = location.pathname === next_url; // check if must refrash by comparing the base urls
-            
         // add fiters
         filters.forEach((filter) =>{
-            next_url += `&${filter.name}=${filter.value}`;
+            if(filter.enabled)
+                next_url += `&${filter.name}=${filter.value}`;
         });
 
-        next_url = next_url.replace(/&/g, "?"); // replace first & with ? in the link
+        next_url = next_url.replace("&", "?"); // replace first & with ? in the link
 
         history.push(next_url);
-        if(should_refresh) {
-            eventPipe.send("refresh_recommendations", null)
+        eventPipe.send("refresh_recommendations", null)
+    }
+
+    const filter_value = (name) => {
+        for(let i =0; i < filters.length; i++)
+        {
+            let f = filters[i];
+            if(f.name === name)
+            {
+                if(!f.enabled) 
+                    return "__default";
+                else 
+                    return f.value;
+            }
         }
+
+        return "__default";
 
     }
 
@@ -245,6 +277,26 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
             </div>
         <div className={clsx(styles.filter_container, {[styles.filter_container_open]: filter_open})}>
             <SiteSelector site={site} set_site={(new_site) => {update_parent_state("site", new_site)}}/>
+            <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap"}}>
+                <div className={styles.filter_box}>
+                    <ToggableSelect 
+                        className="test"
+                        display_text="Format"
+                        selected_item_val={filter_value("format")}
+                        items={anime_formats} 
+                        set_value={(new_value)=>update_parent_state("filters", {name: "format", value: new_value})} 
+                    />
+                </div>
+                <div className={styles.filter_box}>
+                    <ToggableSelect 
+                        className="test"
+                        display_text="Genre"
+                        selected_item_val={filter_value("genre")}
+                        items={anime_genres} 
+                        set_value={(new_value)=>update_parent_state("filters", {name: "genre", value: new_value})} 
+                    />
+                </div>
+            </div>
         </div>
        </div>
     )
@@ -269,15 +321,9 @@ function SearchParameterWrapper({match_url}) {
 
     console.log("Re-render page")
 
-    // check for data errors
-    const is_site_ok = site != null && supported_sites.includes(site.toLowerCase());
-    const is_username_ok = username != null && username.match(/^[a-zA-Z0-9_]{3,20}$/g);
-
-    //TODO: check filters
-
     // setup shared page state 
-    const [current_username, set_username] = useState(is_site_ok && is_username_ok ? username : "");
-    const [current_site, set_site] = useState(is_site_ok ? site.toLowerCase() : supported_sites[0]);
+    const [current_username, set_username] = useState(username != null ? username : "");
+    const [current_site, set_site] = useState(site != null ? site.toLowerCase() : supported_sites[0]);
     const [current_filters, set_filters] = useState(filters);
 
     // do checks and set error state later
@@ -285,8 +331,13 @@ function SearchParameterWrapper({match_url}) {
     let error_msg = null;
     let error_img = null;
 
+    // check for data errors from url
+    const is_site_ok = current_site != null && supported_sites.includes(current_site);
+    const is_username_ok = current_username != null && current_username.match(/^[a-zA-Z0-9_]{3,20}$/g);
+
+
     // chose appropriate body to render based on the checks made before
-    if(username == null || site == null) 
+    if(current_username == null || current_site == null) 
     {
         has_errors = true;
         error_msg = "Please write your username above to get your recommendations!";
@@ -315,7 +366,27 @@ function SearchParameterWrapper({match_url}) {
                 set_site(value);
                 break;
             case "filters":
-                set_filters(value);
+                // make copy
+                let new_filters = [...current_filters]
+                let updated_filter = false;
+                // update values
+                new_filters.forEach(f => {
+                    if(f.name === value.name) {
+                        f.enabled = value.value !== "__default";
+                        f.value = value.value;
+                        updated_filter = true;
+                    }
+                });
+
+                if(!updated_filter) {
+                    // not found the item so we need to add it
+                    value["enabled"] = value.value !== "__default";
+                    new_filters.push(value);
+                }
+
+                console.log(new_filters)
+
+                set_filters(new_filters);
                 break;
             case "error":
                 set_error(value);
@@ -349,19 +420,9 @@ function SearchParameterWrapper({match_url}) {
 export default function Search() {
     let match = useRouteMatch();
 
-    const supported_sites = ["mal", "anilist"]
-
     return (
         <Switch>
-            <Route path={`${match.path}/:site/:username`}>
-                <SearchParameterWrapper match_url={match.path} />
-            </Route>
-
-            <Route path={`${match.path}/:site`}>
-                <SearchParameterWrapper match_url={match.path} />
-            </Route>
-
-            <Route path={match.path}>
+            <Route path={`${match.path}/:site?/:username?`}>
                 <SearchParameterWrapper match_url={match.path} />
             </Route>
 
