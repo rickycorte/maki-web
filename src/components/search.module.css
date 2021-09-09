@@ -194,6 +194,7 @@
 
 .filter_select select:hover {
     background-color: #BF2326;
+    border-color: #BF2326;
 }
 
 

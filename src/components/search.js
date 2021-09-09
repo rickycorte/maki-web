@@ -456,7 +456,9 @@ export default function Search() {
         <Switch>
             <Route 
                 path={`${match.path}/:site?/:username?`} 
-                render={(props) => <SearchParameterWrapper {...props} url={match.path}></SearchParameterWrapper>}>
+                render={(props) => <SearchParameterWrapper {...props} url={match.path}></SearchParameterWrapper>}
+                title="Discover | Yasu"
+                >
             </Route>
 
         </Switch>
