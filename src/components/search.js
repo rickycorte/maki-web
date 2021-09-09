@@ -313,6 +313,11 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
 
     }
 
+    const submit_and_close_filters = (ev) => {
+        set_filter_open(false);
+        onSubmit(ev);
+    }
+
     return (
         <div>
             <div className={styles.search_container}>
@@ -330,7 +335,7 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
             </div>
 
             <div className={clsx(styles.filter_container, {[styles.filter_container_open]: filter_open})}>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={submit_and_close_filters}>
                     <SiteSelector site={site} set_site={(new_site) => {update_parent_state("site", new_site)}}/>
                     <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap"}}>
                         <div className={styles.filter_box}>
