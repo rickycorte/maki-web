@@ -3,7 +3,7 @@ import {Switch, Route, useRouteMatch, useHistory} from '@docusaurus/router'
 import styles from './search.module.css';
 import clsx from 'clsx';
 import { Button, CircularProgress, Icon} from '@material-ui/core';
-import { supported_sites, supported_filters, supported_sites_display, anime_formats, anime_genres, supported_signs} from '../../search.config';
+import { supported_sites, supported_filters, supported_sites_display, anime_formats, anime_genres, supported_signs, gte_filters} from '../../search.config';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import queryString from 'query-string'
 
@@ -375,7 +375,7 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
                             />
                         </div>
                     </div>
-                    <button className={styles.filter_submit_btn} type="submit">Apply Filters</button>
+                    <button className={clsx(styles.filter_submit_btn, styles.modal_ok)} type="submit">Apply Filters</button>
                 </form>
             </div>
        </div>
@@ -398,11 +398,13 @@ class SearchParameterWrapper extends React.Component {
         supported_filters.forEach(f => {
             if(f in query_params)
             {
+                if(gte_filters.includes(f) && !this.is_gte_val(query_params[f])) return; // skip invalid values
+
                 filters.push({"name": f, "value": query_params[f], "enabled": true});
+                
             }
         });
 
-        //TODO: sanitize filters
 
         // get username and site from url path
         const username = "username" in this.props.match.params ? this.props.match.params.username : "";
@@ -427,6 +429,19 @@ class SearchParameterWrapper extends React.Component {
 
     componentDidMount() {
         this.try_data_fetch()
+    }
+
+    is_gte_val(val) {
+        if (val.length < 2) return false;
+
+        if (!supported_signs.includes(val[0])) return false;
+
+        try {
+            val = parseInt(val.substring(1));
+            return !Number.isNaN(val);
+        }catch {
+            return false;
+        }
     }
 
     

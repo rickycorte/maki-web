@@ -5,6 +5,7 @@ module.exports = {
         "anilist": "AniList",
     },
     supported_filters: ["format", "score", "genre", "year"],
+    gte_filters: ["score", "year"],
     anime_formats: [
         { text: "TV",       value: "tv" },
         { text: "Short",    value: "short" },
