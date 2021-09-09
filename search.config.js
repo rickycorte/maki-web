@@ -35,4 +35,9 @@ module.exports = {
         {text: "Thriller",      value: "thriller"},
         {text: "Hentai",        value: "hentai"},
     ],
+    supported_signs: [
+        {text:">", value: "g"},
+        {text:"=", value: "e"},
+        {text:"<", value: "l"}
+    ]
 }
