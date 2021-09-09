@@ -10,8 +10,7 @@ const FeatureList = [
     color: "#BF2326",
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        All you need is a public list on <a href="https://myanimelist.com">MyAnimeList</a> or <a href="https://anilist.co">AniList</a>.
       </>
     ),
   },
@@ -20,8 +19,7 @@ const FeatureList = [
     icon: "self_improvement",
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Scroll back to beginning of the page and try!
       </>
     ),
   },
@@ -31,8 +29,16 @@ const FeatureList = [
     color: "#BF2326",
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Yes, they are exactly what you are thinking!
+      </>
+    ),
+  },
+  {
+    title: 'Developer Friendly',
+    icon: "code",
+    description: (
+      <>
+        Yasu is also a simple <code>REST API</code> open and ready to be used anywhere you want. If you are intrested check our <a href="/docs">documentation</a>.
       </>
     ),
   },
@@ -41,18 +47,7 @@ const FeatureList = [
     icon: "volunteer_activism",
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
-  },
-  {
-    title: 'No Data Collected',
-    icon: "lock",
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Everything in Yasu is free for everyone. If you like this project or use the API you may consider a donation to help keep Yasu up and running.
       </>
     ),
   },

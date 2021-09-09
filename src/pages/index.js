@@ -47,12 +47,16 @@ function HomepageHeader() {
 export default function Home() {
   return (
     <Layout
-      description="Description will go into a meta tag in <head />">
+      description="Tired of asking anime recommendations? Yasu is the first fully automated platform and public API that allows you to get personalized recommendations in a metter os seconds!">
       <HomepageHeader />
       <main>
         <HomepageFocus 
           title="Why Yasy?"
-          desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae ex at lacus egestas elementum nec quis nulla.Suspendisse potenti. Phasellus eu tellus efficitur, hendrerit tortor at, finibus est.Quisque blandit dolor quis erat hendrerit porttitor."
+          desc={(
+            <>Searching new anime to watch could be boring and time consuming, you need to scroll hundreds of titles or posts or ask someone else and wait for a reply.
+            <br/><br/>Yasu is a <b>step forward</b> compared to big anime tracking sites like MyAnimeList that rely purely on users because maks <b>fully automated recommendations accessible to anyone</b>: users and developers.
+            </>
+          )}
           img={require('@site/static/img/character_happy.png').default}>
         </HomepageFocus>
         <HomepageFeatures />
