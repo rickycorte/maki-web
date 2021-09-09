@@ -5,32 +5,9 @@ custom_edit_url: null
 
 # Applications
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Applications are designed for server to server cominication and allow to have higher rate limits than the regular one.
+Rete limits for services running on other server may be too restrictive to allow a good usage with the limited amout of ips they have.
 
-## Getting Started
-
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**:
-
-```shell
-npx @docusaurus/init@latest init my-website classic
-```
-
-## Start your site
-
-Run the development server:
-
-```shell
-cd my-website
-
-npx docusaurus start
-```
-
-Your site starts at `http://localhost:3000`.
-
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and display your changes.
+:::danger
+Applications are currently in closed beta.
+:::

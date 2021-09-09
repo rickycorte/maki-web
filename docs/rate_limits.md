@@ -5,32 +5,12 @@ custom_edit_url: null
 
 # Rate Limits
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Yasu is a free service designed to be free for everywhone without limits. 
 
-## Getting Started
+Running a recommender system and a rest API could be expansive in terms of resources usage and to contains costs I've decided to apply strong limits to ensure that computing power of Yasu is evenly distributed.
 
-Get started by **creating a new site**.
+The rate limit is based on the IP adress you use to make the requests to the API and it's enought to have good user experiences by making direct calls to Yasu from client applications.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**:
-
-```shell
-npx @docusaurus/init@latest init my-website classic
-```
-
-## Start your site
-
-Run the development server:
-
-```shell
-cd my-website
-
-npx docusaurus start
-```
-
-Your site starts at `http://localhost:3000`.
-
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and display your changes.
+:::danger
+If you hit rate limits you will receive an HTTP 429. In that case just slow down a bit and retry your request. 
+:::
