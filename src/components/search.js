@@ -504,7 +504,7 @@ class SearchParameterWrapper extends React.Component {
                     this.show_error("Slow donw a bit sen(pi)! I' can't follow you!");
                     break;
                 case 400:
-                    response.json().then((data) => this.show_error(data["error:"]) ); //TODO: fix backend typo
+                    response.json().then((data) => this.show_error(data["error"]) ); 
                     break;
                 default:
                     this.show_error("Right now I'm unable to reply to you. Retry later!");
