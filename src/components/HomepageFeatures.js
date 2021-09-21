@@ -38,7 +38,7 @@ const FeatureList = [
     icon: "code",
     description: (
       <>
-        Yasu is also a simple <code>REST API</code> open and ready to be used anywhere you want. If you are intrested check our <a href="/docs">documentation</a>.
+        Maki is also a public API open to everyone! If you are intrested check our <a href="/docs">documentation</a>.
       </>
     ),
   },
@@ -47,7 +47,7 @@ const FeatureList = [
     icon: "volunteer_activism",
     description: (
       <>
-        Everything in Yasu is free for everyone. If you like this project or use the API you may consider a donation to help keep Yasu up and running.
+        If you like this project or use the API you may consider a donation to help keep Maki up and running.
       </>
     ),
   },

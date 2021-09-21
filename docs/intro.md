@@ -4,16 +4,15 @@ custom_edit_url: null
 ---
 
 # Getting Recommendations
-
-Integrating Yasu in any kind of application is really simple and takes just a few minutes.
+Integrating Maki in any kind of application is really simple and takes just a few minutes thanks to it public REST interface.
 
 ```shell title="Endpoint URL"
-https://yasu.lewdostrello.xyz
+https://api.makichan.xyz
 ```
 ## GET /
 
-This path is used to check if the API is online or not.
-You may not hit this path many times because it's counted towards rate limits, just do a normal request and handle the error later on.
+This path is used to check if the API is online.
+You may not hit this path many times because it's counted towards rate limits, just do a normal request on other endpoints and handle the error later on.
 
 :::danger
 This endpoint may return HTTP 429 if your request exceed the quota allowed by the rate limit
@@ -23,17 +22,14 @@ This endpoint may return HTTP 429 if your request exceed the quota allowed by th
 
 To get recommendation you must do a `GET` request to this endpoint with both a site and a username.
 
-The site parameter must be on of: `mal`, `anilist`
+The site parameter must be one of: `mal`, `anilist`
 
 The username must contain only alphanumeric characters and '_', it also must be between 3 and 20 characters.
 
-```shell title="Example"
-GET https://yasu.lewdostrello.xyz/anime/mal/test_user
+```shell title="Example Request"
+GET https://api.makichan.xyz/anime/mal/test_user
 ```
 
-We offer the possibility to apply filters to your queries to generate more specific recommendations.
-
-All this parameters may be used in any combination you want. If one of them has an invalid value the request is rejected.
 
 ```json title="Example response"
 {
@@ -64,6 +60,10 @@ This endpoint may return HTTP 429 if your request exceed the quota allowed by th
 :::
 
 
+Maki also offer the possibility to apply filters to your queries to generate more specific recommendations.
+
+All the following parameters may be used in any combination you want. If one of them has an invalid value the request is rejected.
+
 ### (query) k
 
 Number of recommendations that should be generated.
@@ -72,18 +72,19 @@ Range: `1-20`
 
 ### (query) format
 
-Force Yasu to generate recommendations only for items with the requested broadcast format.
-Filtering with multiple types is not possible by design.
+Force Maki to generate recommendations only for items with the requested broadcast format.
+Filtering with multiple formats is not possible by design.
 
-Format must be on of: `tv`, `short`, `movie`, `special`, `ova`, `ona`, `music`
+Format must be one of: `tv`, `short`, `movie`, `special`, `ova`, `ona`, `music`
 
 ### (query) genre
-Force Yasu to generate recommendations only for items with the requested genre.
-Filtering with multiple types is not possible by design.
+Force Maki to generate recommendations only for items with the requested genre.
+Filtering with multiple genres is not possible by design.
 
-**Note:** Yasu never return `hentai`. To receive them you must ask for them by setting this parameter.
+**Note:** Maki never return `hentai`. To receive them you must ask for them by setting this parameter to `hentai`.
 
-Genre must be on of: `action`, `adventure`, `comedy`, `drama`, `ecchi`, `fantasy`, `hentai`, `horror`, `mahou_shoujo`, `mecha`, `music`, `mystery`, `psychological`, `romance`, `sci-fi`, `slice_of_life`, `sports`, `supernatural`, `thriller`
+Genre must be one of: `action`, `adventure`, `comedy`, `drama`, `ecchi`, `fantasy`, `hentai`, `horror`, `mahou_shoujo`, `mecha`, `music`, `mystery`, `psychological`, `romance`, `sci-fi`, `slice_of_life`, `sports`, `supernatural`, `thriller`
+
 ### (query) year
 Filter by anime release year from 1960 up to now.
 
@@ -107,18 +108,19 @@ In this section we made a few examples of complex queries with parameters.
 ### Apply one filter
 We suppose out `test_user` has a public list on `MyAnimeList`.
 
-To apply filters you must append a query to the base url. For example let's say that we want to get recommendations abount anime released before 2000.
+To apply filters you must append a query to the base url. For example let's say that we want to get recommendations about anime released before 2000.
 
 ```shell
-GET https://yasu.lewdostrello.xyz/anime/mal/test_user?year=l2000
+GET https://api.makichan.xyz/anime/mal/test_user?year=l2000
 ```
 
 ### Multiple filters
 We suppose out `test_user` has a public list on `AniList`.
 
-Let's say he wants the finest tv animes we could give him reccommendations with:
+Let's say he wants the finest tv animes.
+We could give him recommendations with:
 ```shell
-GET https://yasu.lewdostrello.xyz/anime/anilist/test_user?score=g80&format=tv
+GET https://api.makichan.xyz/anime/anilist/test_user?score=g80&format=tv
 ```
 :::tip
 The query parameters can be ordered in any way you want!
@@ -128,10 +130,10 @@ The query parameters can be ordered in any way you want!
 We suppose out `test_user` has a public list on `AniList`.
 
 With this user we want to be super specific in what we recommend to him.
-Let's give him as much sugessions as possible on anime released in 2010 with a score greater than 75 aired on tv and that contain action.
+Let's give him as much suggessions as possible on anime released in 2010 with a score greater than 75 aired on tv and that contain action.
 
 ```shell
-GET https://yasu.lewdostrello.xyz/anime/anilist/test_user?k=20&score=g75&format=tv&genre=action&year=e2010
+GET https://api.makichan.xyz/anime/anilist/test_user?k=20&score=g75&format=tv&genre=action&year=e2010
 ```
 
 ### Hentai
@@ -141,11 +143,11 @@ As stated before, you must ask explicitly to recommend hentai.
 We suppose out `test_user` has a public list on `MyAnimeList`.
 
 ```shell
-GET https://yasu.lewdostrello.xyz/anime/anilist/test_user?genre=hentai
+GET https://api.makichan.xyz/anime/anilist/test_user?genre=hentai
 ```
 
 ## Conclusion
 
 In just a few minutes you got your recommendations!
 
-With Yasu you can just focus only on your application, we worry about the complex stuff so you don't have to.
+With Maki you can focus only on your application, Make takes care about the complex stuff so you don't have to.

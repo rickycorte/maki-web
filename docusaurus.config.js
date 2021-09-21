@@ -4,15 +4,15 @@ const path = require('path')
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'Yasu',
+  title: 'Maki',
   tagline: 'Discover New Anime',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://makichan.xyz',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'rickycorte', // Usually your GitHub org/user name.
-  projectName: 'yasu-web', // Usually your repo name.
+  projectName: 'maki-web', // Usually your repo name.
   themeConfig: {
     colorMode: {
       defaultMode: 'dark',
@@ -20,10 +20,10 @@ module.exports = {
     },
 
     navbar: {
-      title: 'Yasu',
+      title: 'Maki',
       logo: {
-        alt: 'Yasu',
-        src: 'img/logo.svg',
+        alt: 'Maki',
+        src: 'img/logo.png',
       },
       items: [
         { 
@@ -46,8 +46,8 @@ module.exports = {
           title: 'Donate',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'N/A',
+              to: '#',
             },
           ],
         },
@@ -56,15 +56,15 @@ module.exports = {
           items: [
             {
               label: 'Roadmap',
-              href: 'https://github.com/rickycorte/yasu-web/projects/1',
+              href: 'https://github.com/rickycorte/maki-web/projects/1',
             },
             {
-              label: 'Discussions & Support',
-              href: 'https://github.com/rickycorte/yasu-web/discussions',
+              label: 'Discussions',
+              href: 'https://github.com/rickycorte/maki-web/discussions',
             },
             {
-              label: 'Issues & Requests',
-              href: 'https://github.com/rickycorte/yasu-web/issues',
+              label: 'Issues',
+              href: 'https://github.com/rickycorte/maki-web/issues',
             },
           ],
         },
@@ -103,7 +103,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+          editUrl: 'https://github.com/rickycorte/maki-web',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

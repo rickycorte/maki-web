@@ -1,16 +1,14 @@
-# yasu-web
+# Maki Web
 
-Simple web interface for Yasu AI, a simple and free api to get anime suggestions!
+Simple web interface for Maki, a simple and free api to get automated anime recommendations!
 
-This repository contains only the official Web Interface for Yasu AI, unfortunatelly the backend is closed source.
+This repository contains only the official Web Interface for Maki, right now the backend is closed source.
 
-## Community
-The main scope if this repository is to make an example usage of the API and be the main community hub.
+You may use this web app to get your recommenadations in a few seconds or you can integrate Maki into your own application for free!
 
-I invite you to take a look at:
-- [Issues](https://github.com/rickycorte/yasu-web/issues)
-- [Discussions](https://github.com/rickycorte/yasu-web/discussions)
-- [Public Roadmap](https://github.com/rickycorte/yasu-web/projects/1)
-- [API Documentation](https://yasu.lewdostrello.xyz/docs)
+- [Issues](https://github.com/rickycorte/maki-web/issues)
+- [Discussions](https://github.com/rickycorte/maki-web/discussions)
+- [Public Roadmap](https://github.com/rickycorte/maki-web/projects/1)
+- [Documentation](https://makichan.xyz/docs/intro)
 
 Feel free to create an issue/discussion reguarding both the backend and the frontend!
