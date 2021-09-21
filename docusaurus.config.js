@@ -72,6 +72,10 @@ module.exports = {
           title: 'More',
           items: [
             {
+              label: 'Status',
+              href: 'https://statuspage.freshping.io/56354-Maki'
+            },
+            {
               label: 'Terms of Service',
               to: '/tos',
             },
