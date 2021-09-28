@@ -43,15 +43,6 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Donate',
-          items: [
-            {
-              label: 'N/A',
-              to: '#',
-            },
-          ],
-        },
-        {
           title: 'Community',
           items: [
             {
