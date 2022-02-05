@@ -372,7 +372,7 @@ class SearchParameterWrapper extends React.Component {
 
     fetch_data() {
         console.log("Starting recommendation fetch")
-        let url = `https://makichan.xyz/anime/${this.state.site}/${this.state.username}?k=12`;
+        let url = `https://api.makichan.xyz/anime/${this.state.site}/${this.state.username}?k=12`;
 
         //add filters to the url
         this.state.filters.forEach((filter) =>{
