@@ -179,7 +179,14 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
 
     const [is_modal_open, set_modal_open] = useState(false);
 
-    const page_body = document.querySelector("body");
+    let page_body;
+
+    // random walkaround goooo
+    if (typeof window !== "undefined") {
+        page_body = document.querySelector("body");
+    } else {
+        page_body = {"style": {"overflow": "auto"}}
+    }
 
     const onFilterButtonClick = (ev) => {
         ev.preventDefault()
