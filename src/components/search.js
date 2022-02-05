@@ -3,7 +3,7 @@ import {Switch, Route, useRouteMatch, useHistory} from '@docusaurus/router'
 import styles from './search.module.css';
 import clsx from 'clsx';
 import { Button, CircularProgress, Icon} from '@material-ui/core';
-import { supported_sites, supported_filters, supported_sites_display, anime_formats, anime_genres, supported_signs, gte_filters} from '../../search.config';
+import { supported_sites, supported_filters, supported_sites_display, supported_sites_filter, anime_genres, supported_signs, gte_filters} from '../../search.config';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import queryString from 'query-string'
 
@@ -38,27 +38,22 @@ function ErrorPageBody ({img, title, message}){
 
 /***********************************************************************************/
 
-function Card({title, mal, anilist, cover_url, format, release_year, affinity}) {
+function Card({title, mal, anilist, cover_url, format, release_year, affinity, site}) {
+
+    var anime_link = site == "mal" ? `https://myanimelist.net/anime/${mal}` : `https://anilist.co/anime/${anilist}`;
+
 
     return (
         <div className={clsx(styles.card)}>
-            <div className={styles.card_body}>
-                <img src={cover_url} />
-                <div className={styles.card_side}>
-                    <h3>{title}</h3>
-                    <div className={styles.desc_text}>
-                        <Icon>podcasts</Icon>
-                        <span style={{marginLeft: "5px"}}>{format.toUpperCase()} - {release_year}</span>
-                    </div>
-                    <div className={styles.desc_text}>
-                        <Icon>favorite</Icon>
-                        <span style={{marginLeft: "5px"}}>Affinity: {affinity.toFixed(2)}</span>
-                    </div>
-                    <div className={styles.card_side_bottom}>
-                        <a href={`https://anilist.co/anime/${anilist}`} target="_blank" rel="noopener noreferrer">AniList</a>
-                        <a href={`https://myanimelist.net/anime/${mal}`} target="_blank" rel="noopener noreferrer">MyAnimeList</a>
-                    </div>
+            <div className={clsx(styles.card_body)}>
+                <img src={cover_url} style={{width: "100%", height: "100%"}}/>
+                <div className={clsx(styles.card_title)} >
+                    <h4 style={{"margin": "15px"}}>{title}</h4>
                 </div>
+                <div className={clsx(styles.card_dot)}>
+                    {parseInt(affinity * 100) + "%"}
+                </div>
+                <a href={anime_link} target="_blank" />
             </div>
         </div>
     )
@@ -101,7 +96,7 @@ class CardResultPage extends React.Component {
             {
                 body = (
                     <div className={styles.card_container}>
-                            { this.props.data.recommendations.map((data => {return <Card key={data.anilist} {...data} />})) }
+                            { this.props.data.recommendations.map((data => {return <Card key={data.anilist} site={this.props.site} {...data} />})) }
                     </div>
                 )
             }
@@ -115,25 +110,6 @@ class CardResultPage extends React.Component {
 
 /***********************************************************************************/
 
-function SiteSelector({site, set_site}) {
-    return (
-        <div className={styles.toggle_button_group}>
-            {
-                supported_sites.map((e) => {
-                    return (
-                        <button 
-                            onClick={()=>set_site(e)}
-                            className={clsx({[styles.toggle_bnt_active]: site === e})}
-                            key={e}
-                        >
-                                {supported_sites_display[e]}
-                        </button>
-                    );
-                })
-            }
-        </div>
-    )
-}
 
 function ToggableSelect({display_text, selected_item_val, items, set_value}) {
 
@@ -158,123 +134,57 @@ function ToggableSelect({display_text, selected_item_val, items, set_value}) {
     )
 }
 
-function GTEModal({title, input_placeholder, value, set_value, close_modal}){
+function FilterModal({current_site, current_genre, site_callback, genre_callback, submit_callback, close_modal}){
 
     return (
         <div className={styles.modal_container}>
             <div className={styles.modal_close_area} onClick={close_modal} ></div>
             <div className={styles.modal}>
-                <div style={{margin:"10px"}}>
-                    <div style={{position: "relative"}}>
-                        <h1>{title}</h1>
-                        <Icon className={styles.modal_close_icon} onClick={close_modal}>close</Icon>
-                    </div>
-                    <ToggableSelect selected_item_val={value[0]} items={supported_signs} set_value={(sign)=> set_value(sign + value.substring(1))}/>
-                    <input
-                        placeholder={input_placeholder}
-                        value={value !== "__default"? value.substring(1) : ""}
-                        onChange={(e) => set_value(value[0] + e.target.value)} />
-                    
-
-                    <div style={{marginTop: "40px"}}>
-                        <button 
-                            className={clsx(styles.filter_submit_btn, styles.modal_delete)}
-                            onClick={() => { set_value("__default"); close_modal();}}
-                            type="button"
-                            >
-                            Clear Filter
-                        </button>
-                        <button
-                            className={clsx(styles.filter_submit_btn, styles.modal_ok)}
-                            onClick={() => { if(value !== "__default") close_modal() }}
-                            type="button"
-                            >
-                            Apply Filter
-                        </button>
-                    </div>
-
-                </div>
-
-
+            <h3 style={{textAlign: "center", marginTop: "20px"}}>Settings</h3>
+            <div style={{margin:"20px"}}>
+                <form onSubmit={submit_callback}>
+                    <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap"}}>
+                            <div className={styles.filter_box}>
+                                <ToggableSelect 
+                                    selected_item_val={current_site}
+                                    items={supported_sites_filter} 
+                                    set_value={site_callback}
+                                />
+                            </div>
+                        
+                            <div className={styles.filter_box}>
+                                <ToggableSelect 
+                                    display_text="Genre"
+                                    selected_item_val={current_genre}
+                                    items={anime_genres} 
+                                    set_value={genre_callback} 
+                                />
+                            </div>
+                        </div>
+                        <button style={{marginTop:"20px"}} className={clsx(styles.filter_submit_btn, styles.modal_ok)} type="submit">Apply</button>
+                    </form>
             </div>
+            </div>
+
+
         </div>
     )
 }
 
-function GTEInput({modal_title, modal_input_placeholder, value, min_val, max_val, set_value}) {
-
-    const [is_modal_open, set_modal_open] = useState(false);
-
-    const toInt = (val, def_val) => {
-        try {
-            return parseInt(val);
-            
-        } catch {
-            return def_val
-        }
-    }
-
-    const set_value_bounded = (val) => {
-        if(val === "__default") {
-            set_value(val);
-            return;
-        }
-
-        let sign = val[0];
-
-        if(sign == "_") // first _ of default value
-            sign = supported_signs[0].value;
-
-        val = toInt(val.substring(1), min_val);
-        if(Number.isNaN(val)) {
-            set_value("__default");
-            return;
-        }
-
-        if(val < min_val) val = min_val;
-        if(val > max_val) val = max_val;
-
-        set_value(sign + val);
-    }
-
-    let modal_render;
-    if(is_modal_open) {
-        modal_render = (
-            <GTEModal
-            show= {is_modal_open}
-            title={modal_title}
-            input_placeholder={modal_input_placeholder}
-            value={value}
-            set_value={set_value_bounded}
-            close_modal={() => set_modal_open(false)} 
-        />
-        )
-    }
-
-
-    return (<>
-                <button className={styles.filter_submit_btn} onClick={() => set_modal_open(!is_modal_open)} type="button">
-                    {value == "__default" ?
-                        modal_input_placeholder
-                        :
-                        value.replace("g", "> ").replace("e", "").replace("l", "<")
-                    }
-                </button>
-                {modal_render}
-            </>
-            )
-}
 
 function SearchBar({base_url, username, site, filters, update_parent_state}){
 
     const history = useHistory();
     const isBrowser = useIsBrowser();
 
-    const [filter_open, set_filter_open] = useState(false);
+    const [is_modal_open, set_modal_open] = useState(false);
+
+    const page_body = document.querySelector("body");
 
     const onFilterButtonClick = (ev) => {
         ev.preventDefault()
-        set_filter_open(!filter_open)
+        set_modal_open(true)
+        page_body.style.overflow = "hidden";
         console.log("Filter button clicked")
     }
 
@@ -314,8 +224,23 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
     }
 
     const submit_and_close_filters = (ev) => {
-        set_filter_open(false);
         onSubmit(ev);
+        set_modal_open(false)
+        page_body.style.overflow = "auto";
+    }
+
+    let modal_render;
+    if(is_modal_open) {
+        modal_render = (
+            <FilterModal
+                current_sitesite={site}
+                site_callback = {(new_site) => {update_parent_state("site", new_site)}}
+                current_genre= {filter_value("genre")}
+                genre_callback = {(new_value)=>update_parent_state("filters", {name: "genre", value: new_value})}
+                submit_callback={submit_and_close_filters}
+                close_modal={() => { set_modal_open(false); page_body.style.overflow = "auto";}} 
+            />
+        )
     }
 
     return (
@@ -333,51 +258,7 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
                 <a onClick={onSubmit} className={clsx(styles.search_container_btn)}><Icon>refresh</Icon></a> 
                 <a onClick={onFilterButtonClick} className={clsx(styles.search_container_btn)}><Icon>filter_alt</Icon></a>
             </div>
-
-            <div className={clsx(styles.filter_container, {[styles.filter_container_open]: filter_open})}>
-                <form onSubmit={submit_and_close_filters}>
-                    <SiteSelector site={site} set_site={(new_site) => {update_parent_state("site", new_site)}}/>
-                    <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap"}}>
-                        <div className={styles.filter_box}>
-                            <ToggableSelect 
-                                display_text="Format"
-                                selected_item_val={filter_value("format")}
-                                items={anime_formats} 
-                                set_value={(new_value)=>update_parent_state("filters", {name: "format", value: new_value})} 
-                            />
-                        </div>
-                        <div className={styles.filter_box}>
-                            <ToggableSelect 
-                                display_text="Genre"
-                                selected_item_val={filter_value("genre")}
-                                items={anime_genres} 
-                                set_value={(new_value)=>update_parent_state("filters", {name: "genre", value: new_value})} 
-                            />
-                        </div>
-                        <div className={styles.filter_box}>
-                            <GTEInput
-                                modal_title="Score Filter"
-                                modal_input_placeholder="Score"
-                                value={filter_value("score")}
-                                min_val={0}
-                                max_val={100}
-                                set_value={(new_value)=>update_parent_state("filters", {name: "score", value: new_value})} 
-                            />
-                        </div>
-                        <div className={styles.filter_box}>
-                            <GTEInput
-                                modal_title="Release Year Filter"
-                                modal_input_placeholder="Release Year"
-                                value={filter_value("year")}
-                                min_val={0}
-                                max_val={new Date().getFullYear()}
-                                set_value={(new_value)=>update_parent_state("filters", {name: "year", value: new_value})} 
-                            />
-                        </div>
-                    </div>
-                    <button className={clsx(styles.filter_submit_btn, styles.modal_ok)} type="submit">Apply Filters</button>
-                </form>
-            </div>
+            {modal_render}
        </div>
     )
 }
@@ -484,7 +365,7 @@ class SearchParameterWrapper extends React.Component {
 
     fetch_data() {
         console.log("Starting recommendation fetch")
-        let url = `https://api.makichan.xyz/anime/${this.state.site}/${this.state.username}?k=12`;
+        let url = `http://localhost:3000/anime/${this.state.site}/${this.state.username}?k=12`;
 
         //add filters to the url
         this.state.filters.forEach((filter) =>{
@@ -587,6 +468,7 @@ class SearchParameterWrapper extends React.Component {
                 <CardResultPage 
                     loading={this.state.fetching_new_data}
                     data={this.state.fetched_data}
+                    site={this.state.site}
                 />}
         </>
         )

@@ -4,6 +4,10 @@ module.exports = {
         "mal": "MyAnimeList",
         "anilist": "AniList",
     },
+    supported_sites_filter: [
+        {text:"MyAnimeList", value:"mal"},
+        {text:"AniList",     value:"anilist"},
+    ],
     supported_filters: ["format", "score", "genre", "year"],
     gte_filters: ["score", "year"],
     anime_formats: [
