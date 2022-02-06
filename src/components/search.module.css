@@ -66,7 +66,7 @@
     left: 0;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 800px) {
     .card {
         width: 50%;
     }
@@ -76,21 +76,24 @@
     }
 }
 
-@media screen and (min-width:900px) and (max-width:1400px) {
+@media screen and (min-width:800px) and (max-width:1200px) {
     .card {
-        width: 33%;
+        width: 25%;
     }
     .filter_box {
         width: 100%;
     }
 }
 
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 1200px) and (max-width:1600px) {
     .card {
         width: 16.6%;
     }
-    .filter_box {
-        width: 100%;
+}
+
+@media screen and (min-width: 1600px)  {
+    .card {
+        width: 12.5%;
     }
 }
 
