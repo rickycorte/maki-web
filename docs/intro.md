@@ -26,6 +26,8 @@ The site parameter must be one of: `mal`, `anilist`
 
 The username must contain only alphanumeric characters and '_', it also must be between 3 and 20 characters.
 
+By default Maki will never return hentai entries unless you explicitly set the genre filter to `hentai`.
+
 ```shell title="Example Request"
 GET https://api.makichan.xyz/anime/mal/test_user
 ```
@@ -45,7 +47,8 @@ GET https://api.makichan.xyz/anime/mal/test_user
       "format": "tv",
       "release_year": 2003,
       "score": 70,
-      "affinity": 6.278204858747053
+      "affinity": 0.85,
+      "genres": ["action", "adventure"]
     }
   ]
 }
@@ -60,22 +63,16 @@ This endpoint may return HTTP 429 if your request exceed the quota allowed by th
 :::
 
 
-Maki also offer the possibility to apply filters to your queries to generate more specific recommendations.
 
 All the following parameters may be used in any combination you want. If one of them has an invalid value the request is rejected.
 
+At the moment Maki supports only filter by genre. Putting too many filters would defeat the purpose of a recommender system.
 ### (query) k
 
 Number of recommendations that should be generated.
 
-Range: `1-20`
+Range: `1-40`
 
-### (query) format
-
-Force Maki to generate recommendations only for items with the requested broadcast format.
-Filtering with multiple formats is not possible by design.
-
-Format must be one of: `tv`, `short`, `movie`, `special`, `ova`, `ona`, `music`
 
 ### (query) genre
 Force Maki to generate recommendations only for items with the requested genre.
@@ -85,65 +82,14 @@ Filtering with multiple genres is not possible by design.
 
 Genre must be one of: `action`, `adventure`, `comedy`, `drama`, `ecchi`, `fantasy`, `hentai`, `horror`, `mahou_shoujo`, `mecha`, `music`, `mystery`, `psychological`, `romance`, `sci-fi`, `slice_of_life`, `sports`, `supernatural`, `thriller`
 
-### (query) year
-Filter by anime release year from 1960 up to now.
+#### Example
 
-You must also specify a direction in which you want to apply the filter with either: `g` (greater), `e` (equal), `l` (lower).
-
-For example if you want to filter anime released from 2010 up to now you should pass `g2009`, this will include all the animes from 2010 or later.
-
-### (query) score
-Filter by anime score in range 50-100.
-
-You must also specify a direction in which you want to apply the filter with either: `g` (greater), `e` (equal), `l` (lower).
-
-For example if you want to filter anime with a score of 87 up to now you should pass `e87`, this will include all the animes with the exact score of 87.
-
-## Examples
-
-In this section we made a few examples of complex queries with parameters.
-
-
-
-### Apply one filter
 We suppose out `test_user` has a public list on `MyAnimeList`.
 
 To apply filters you must append a query to the base url. For example let's say that we want to get recommendations about anime released before 2000.
 
 ```shell
-GET https://api.makichan.xyz/anime/mal/test_user?year=l2000
-```
-
-### Multiple filters
-We suppose out `test_user` has a public list on `AniList`.
-
-Let's say he wants the finest tv animes.
-We could give him recommendations with:
-```shell
-GET https://api.makichan.xyz/anime/anilist/test_user?score=g80&format=tv
-```
-:::tip
-The query parameters can be ordered in any way you want!
-:::
-
-### All filters
-We suppose out `test_user` has a public list on `AniList`.
-
-With this user we want to be super specific in what we recommend to him.
-Let's give him as much suggessions as possible on anime released in 2010 with a score greater than 75 aired on tv and that contain action.
-
-```shell
-GET https://api.makichan.xyz/anime/anilist/test_user?k=20&score=g75&format=tv&genre=action&year=e2010
-```
-
-### Hentai
-
-As stated before, you must ask explicitly to recommend hentai.
-
-We suppose out `test_user` has a public list on `MyAnimeList`.
-
-```shell
-GET https://api.makichan.xyz/anime/anilist/test_user?genre=hentai
+GET https://api.makichan.xyz/anime/mal/test_user?genre=action
 ```
 
 ## Conclusion

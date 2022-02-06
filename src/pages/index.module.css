@@ -25,7 +25,7 @@
 .discovery {
   background-image: url('../../static/img/top_img.jpg');
   background-repeat: no-repeat;
-  min-height: 80vh;
+  min-height: 85vh;
   background-size: cover;
   background-position: center center;
 }

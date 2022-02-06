@@ -69,7 +69,7 @@ function Feature({icon, title, description, color="white"}) {
 
 export default function HomepageFeatures() {
   return (
-    <section className={styles.features}>
+    <section className={styles.features} style={{transform: "translateY(-100px)"}}>
       <div className="container">
         <h1 className={styles.big_title} style={{paddingBottom: "0px"}}>Features</h1>
         <div className="row" style={{display: "flex", justifyContent: "center"}}>

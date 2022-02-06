@@ -389,7 +389,7 @@ class SearchParameterWrapper extends React.Component {
                     response.json().then((data) => this.setState({fetched_data: data, fetching_new_data: false}) );
                     break;
                 case 429:
-                    this.show_error("Slow donw a bit sen(pi)! I' can't follow you!");
+                    this.show_error("Slow down a bit sen(pi)! I' can't follow you!");
                     break;
                 case 400:
                     response.json().then((data) => this.show_error(data["error"]) ); 

@@ -4,6 +4,10 @@
     justify-content: center;
     padding: 10px;
     background-color: #242526;
+    margin: 5px;
+    margin-bottom: 5px;
+    border-radius: 30px;
+    box-shadow: 5px 5px 10px 2px #000000;
 }
 
 .search_container_topbar_input {
@@ -31,7 +35,7 @@
 }
 
 .card {
-    padding: 5px;
+    padding: 10px;
     align-self: stretch;
     overflow: hidden;
 }
@@ -51,6 +55,7 @@
     border-radius: 30px;
     display: flex;
     overflow: hidden;
+    box-shadow: 5px 5px 10px 2px #000000;
 }
 
 .card_body a {
@@ -280,6 +285,7 @@
     border-radius: 30px;
     overflow: hidden;
     z-index: 1000;
+    box-shadow: 5px 5px 10px 2px #000000;
 }
 
 .modal input {
@@ -307,7 +313,7 @@
 }
 
 .modal_ok:hover {
-    background-color: #242526;;
+    background-color: #242526;
     border-color: rgb(0, 128, 0);
 }
 

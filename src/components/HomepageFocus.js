@@ -4,7 +4,7 @@ import styles from './HomepageFeatures.module.css';
 
 export default function HomepageFocus({title, desc, img}) {
   return (
-    <section className={styles.features}>
+    <section className={styles.features} style={{marginBottom: "50px", transform: "translateY(-140px)", paddingBottom: "15px"}}>
       <div className="container">
         <div className="row">
             <div className="col col--4">

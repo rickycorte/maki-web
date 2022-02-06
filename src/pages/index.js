@@ -21,7 +21,7 @@ function HomepageHeader() {
       <div className="container">
         <h1 className="hero__title" style={{color: "white"}}>Discover New Anime</h1>
         
-        <input type="text" style={{marginBottom: "30px"}} value={username} onChange={(ev)=> set_username(ev.target.value)}></input>
+        <input type="text" placeholder="Anilist/MyAnimeList username" style={{marginBottom: "30px"}} value={username} onChange={(ev)=> set_username(ev.target.value)}></input>
 
         <div className={styles.buttons}>
           <Link
@@ -49,8 +49,8 @@ export default function Home() {
     <Layout
       description="Tired of asking anime recommendations? Maki is the first fully automated platform and public API that allows you to get personalized recommendations in a metter of seconds!">
       <HomepageHeader />
-      <main>
-        <HomepageFocus 
+      <main style={{display: "flex", alignItems: "center", flexDirection: "column"}}>
+        <HomepageFocus
           title="Why Maki?"
           desc={(
             <>Searching new anime to watch could be boring and time consuming, you need to scroll hundreds of titles or ask someone else and wait for a reply.
