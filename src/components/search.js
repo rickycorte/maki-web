@@ -51,7 +51,7 @@ function Card({title, mal, anilist, cover_url, format, release_year, affinity, s
                     <h4 style={{"margin": "15px"}}>{title}</h4>
                 </div>
                 <div className={clsx(styles.card_dot)}>
-                    {parseInt(affinity * 100) + "%"}
+                    {"Affinity: "+parseInt(affinity * 100)}
                 </div>
                 <a href={anime_link} target="_blank" />
             </div>
@@ -143,7 +143,7 @@ function FilterModal({current_site, current_genre, site_callback, genre_callback
             <h3 style={{textAlign: "center", marginTop: "20px"}}>Settings</h3>
             <div style={{margin:"20px"}}>
                 <form onSubmit={submit_callback}>
-                    <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap"}}>
+                    <div style={{display: "flex", justifyItems: "center", flexWrap: "wrap", flexDirection: "column"}}>
                             <div className={styles.filter_box}>
                                 <ToggableSelect 
                                     selected_item_val={current_site}
@@ -253,7 +253,7 @@ function SearchBar({base_url, username, site, filters, update_parent_state}){
     return (
         <div>
             <div className={styles.search_container}>
-                <a href="/" className={styles.search_container_btn}><Icon>navigate_before</Icon></a>
+                <a href="/" className={styles.search_container_btn}><img src={require('@site/static/img/logo.png').default} style={{height: "100%"}}/></a>
                 <form onSubmit={onSubmit} style={{flexGrow: 1}}>
                 <input type="text"
                     className={styles.search_container_topbar_input}
@@ -372,7 +372,7 @@ class SearchParameterWrapper extends React.Component {
 
     fetch_data() {
         console.log("Starting recommendation fetch")
-        let url = `https://api.makichan.xyz/anime/${this.state.site}/${this.state.username}?k=16`; // use 24
+        let url = `https://api.makichan.xyz/anime/${this.state.site}/${this.state.username}?k=24`;
 
         //add filters to the url
         this.state.filters.forEach((filter) =>{

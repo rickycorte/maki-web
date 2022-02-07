@@ -21,7 +21,7 @@ function HomepageHeader() {
       <div className="container">
         <h1 className="hero__title" style={{color: "white"}}>Discover New Anime</h1>
         
-        <input type="text" placeholder="Anilist/MyAnimeList username" style={{marginBottom: "30px"}} value={username} onChange={(ev)=> set_username(ev.target.value)}></input>
+        <input type="text" placeholder="Your Username" style={{marginBottom: "30px"}} value={username} onChange={(ev)=> set_username(ev.target.value)}></input>
 
         <div className={styles.buttons}>
           <Link
