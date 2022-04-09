@@ -47,7 +47,7 @@ const FeatureList = [
     icon: "volunteer_activism",
     description: (
       <>
-        If you like this project or use the API you may consider a donation to help keep Maki up and running.
+        Everything is free for everyone!
       </>
     ),
   },
