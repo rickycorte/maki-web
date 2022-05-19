@@ -359,7 +359,7 @@ class SearchParameterWrapper extends React.Component {
             return false;
         } 
 
-        if(!this.state.username.match(/^[a-zA-Z0-9_]{3,20}$/g))
+        if(!this.state.username.match(/^[a-zA-Z0-9_-]{3,30}$/g))
         {
             this.show_error("Invalid username! Please check what you did and try again!");
             return false;
