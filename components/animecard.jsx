@@ -22,7 +22,7 @@ class AnimeCard extends React.Component {
                             <div className={styles.title}>{this.props.entry.title}</div>
                             </GradientTitle>
                     </div>
-                    <a className={styles.link} href={this.tracking_link} target="_blank"></a>
+                    <a className={styles.link} href={this.tracking_link} target="_blank" rel="noreferrer"></a>
                 </div>
             </div>
         )
