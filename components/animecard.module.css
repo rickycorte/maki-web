@@ -1,0 +1,73 @@
+
+@media screen and (max-width: 800px) {
+    .card {
+        width: 50%;
+    }
+
+}
+
+@media screen and (min-width:800px) and (max-width:1200px) {
+    .card {
+        width: 25%;
+    }
+}
+
+@media screen and (min-width: 1200px) and (max-width:1600px) {
+    .card {
+        width: 16.6%;
+    }
+}
+
+@media screen and (min-width: 1600px)  {
+    .card {
+        width: 12.5%;
+    }
+}
+
+
+.card {
+    display: flex;
+    padding: var(--global-padding);
+}
+
+.card_body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    box-shadow: var(--global-shadow);
+    border-radius: var(--item-radius);
+    position: relative;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+
+}
+
+.title {
+    text-align: center;
+    width: 100%;
+}
+
+
+.link {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 100;
+}
+
+.link:hover {
+    background: rgba(255, 255, 255, .4);
+    transition: background 0.3s;
+}

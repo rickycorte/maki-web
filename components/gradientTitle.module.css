@@ -1,0 +1,22 @@
+
+.title {
+    padding: var(--global-padding);
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.title_content {
+    min-height: 50px;
+    width: 100%;
+    border-radius: var(--item-radius);
+    color: var(--text-color);
+    background: var(--gradient-purple-orange-fallback);
+    background: var(--purple-orange-gradient);
+    box-shadow: var(--global-shadow);
+    overflow: hidden;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+}
