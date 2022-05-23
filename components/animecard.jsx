@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import styles from './animecard.module.css';
 import GradientTitle from './grandietTitle';
@@ -20,9 +21,9 @@ class AnimeCard extends React.Component {
                     <div className={styles.footer}>
                         <GradientTitle>
                             <div className={styles.title}>{this.props.entry.title}</div>
-                            </GradientTitle>
+                        </GradientTitle>
                     </div>
-                    <a className={styles.link} href={this.tracking_link} target="_blank" rel="noreferrer"></a>
+                    <Link href={this.tracking_link} target="_blank" rel="noreferrer" ><a className={styles.link}></a></Link>
                 </div>
             </div>
         )

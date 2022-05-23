@@ -20,10 +20,10 @@ export default function Footer() {
                     <div className={styles.link_block}>
                         <h3>More</h3>
                         <div className={styles.links}>
-                            <a href="/status">Status</a>
-                            <a href="/tos">Term of Service</a>
-                            <a href="/privacy">Privacy</a>
-                            <a href="/credits">Credits</a>
+                            <Link href="/status"><a>Status</a></Link>
+                            <Link href="/tos"><a>Term of Service</a></Link>
+                            <Link href="/privacy"><a>Privacy</a></Link>
+                            <Link href="/credits"><a>Credits</a></Link>
                         </div>
                     </div>
 

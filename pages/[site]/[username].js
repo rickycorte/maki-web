@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import AnimeCard from '../../components/animecard';
 import Container from '../../components/container';
 import GradientTitle from '../../components/grandietTitle';
@@ -104,7 +105,18 @@ class RecommendatiosPage extends React.Component {
 
   get_page_content() {
     if (this.props.error_message != null) {
-      return (<ErrorPageBody message={this.props.error_message}></ErrorPageBody>)
+      return (
+      <Container>
+          <GradientTitle>
+              <Link href="/">
+                  <a style={{width: "100%", textAlign: "center"}}>
+                      <h3 style={{width: "100%", textAlign: "center"}}>Maki</h3>
+                  </a>
+              </Link>
+          </GradientTitle>
+        <ErrorPageBody message={this.props.error_message}></ErrorPageBody>
+      </Container>
+      )
     }
     if(this.props.recommendations == null) {
       return  (<h1>Loading...</h1>)
@@ -121,7 +133,7 @@ class RecommendatiosPage extends React.Component {
               </div>
               <div style={{display: "flex", alignItems:"center"}}>
                 <h3>from</h3>
-                <select name="site" id="site" style={{marginLeft: "10px"}} onChange={this.onSiteChange(this)} value={this.props.site}>
+                <select name="site" id="site" style={{marginLeft: "10px"}} onChange={this.onSiteChange(this.props)} value={this.props.site}>
                   <option value="anilist">Anilist</option>
                   <option value="mal">MyAnimeList</option>
                 </select>
