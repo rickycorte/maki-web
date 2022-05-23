@@ -91,7 +91,7 @@ class RecommendatiosPage extends React.Component {
   getPushUrl(site, username, genre)
   {
     let url = `/${site}/${username}`
-    if(genre != null)
+    if(genre != null && genre != "null")
       url += `?genre=${genre}`
 
     return url
