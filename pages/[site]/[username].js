@@ -6,6 +6,7 @@ import Grid from '../../components/grid';
 import ErrorPageBody from '../../components/errorPageBody'
 
 import { supported_sites} from '../../recommendations.config';
+import Footer from '../../components/footer';
 
 function isValidUsername(username)
 {
@@ -28,7 +29,7 @@ export async function getServerSideProps(context) {
   let recommendations = null;
   let error_message = null
 
-  if( isValidSite(site) && isValidUsername())
+  if( isValidSite(site) && isValidUsername(username))
   {
     let response = await fetch(url)
     switch (response.status) {
@@ -93,7 +94,10 @@ class RecommendatiosPage extends React.Component {
   render() {
 
     return (
-      <Container>{this.get_page_content()}</Container>
+      <Container>
+        {this.get_page_content()}
+        <Footer></Footer>
+        </Container>
     )
   }
 }
