@@ -1,0 +1,28 @@
+
+.container {
+    width: 100%;
+    min-height: 80%;
+    padding: var(--global-padding);
+}
+
+.container_body {
+    background-color: var(--foreground-color);
+    border-radius: var(--item-radius);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image {
+    height: 80%;
+    padding-bottom: 15px;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .image {
+        width: 80%;
+    }
+}
+

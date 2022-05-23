@@ -1,6 +1,7 @@
 :root {
   --item-radius: 15px;
   --bg-color: #222222;
+  --foreground-color: #3b3b3b;
   --gradient-purple-orange-fallback: rgba(196,38,223,1);
   --purple-orange-gradient: linear-gradient(90deg, rgba(196,38,223,.9) 0%, rgba(255,150,52,.9) 100%);
   --global-padding: 10px;

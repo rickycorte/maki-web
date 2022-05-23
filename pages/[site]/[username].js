@@ -3,36 +3,58 @@ import AnimeCard from '../../components/animecard';
 import Container from '../../components/container';
 import GradientTitle from '../../components/grandietTitle';
 import Grid from '../../components/grid';
+import ErrorPageBody from '../../components/errorPageBody'
+
+import { supported_sites} from '../../recommendations.config';
+
+function isValidUsername(username)
+{
+  return username.match(/^[a-zA-Z0-9_-]{3,30}$/g)
+}
+
+function isValidSite(site) {
+  return supported_sites.includes(site)
+}
 
 export async function getServerSideProps(context) {
 
   const { site, username } = context.params
 
   console.log("Starting recommendation fetch")
-  let url = `https://api.makichan.xyz/anime/${site}/${username}?k=24`;
+  let url = `https://api.makichan.xyz/anime/${site}/${username}?k=24`
 
   console.log(`Calling API: ${url}`);
 
   let recommendations = null;
   let error_message = null
 
-  let response = await fetch(url)
+  if( isValidSite(site) && isValidUsername())
+  {
+    let response = await fetch(url)
     switch (response.status) {
         case 200:
           let data = await response.json()
-          recommendations = data["recommendations"];
+          recommendations = data["recommendations"]
           break;
         case 429:
           console.log("Rate limit hit")
+          error_message = "Please slow down a bit, I can't follow you!"
           break;
         case 400:
-          //response.json().then((data) => console.log(data["error"]));
+          consoloe.log(await response.json())
+          error_message = "Something went wrong with your request! Please check your data!"
           break;
         default:
           console.log(response)
-          //this.show_error("Right now I'm unable to reply to you. Retry later!");
+          error_message = "Right now I'm unable to reply to you. Retry later!";
           break;
       }
+  } else {
+    if(!isValidUsername(username))
+      error_message = "Invalid username"
+    if(!isValidSite(site))
+      error_message = `Invalid tracking site. Must be one of: ${supported_sites}`
+  }
 
   return {
     props: {
@@ -53,6 +75,9 @@ class RecommendatiosPage extends React.Component {
   }
 
   get_page_content() {
+    if (this.props.error_message != null) {
+      return (<ErrorPageBody message={this.props.error_message}></ErrorPageBody>)
+    }
     if(this.props.recommendations == null) {
       return  (<h1>Loading...</h1>)
     } else {
