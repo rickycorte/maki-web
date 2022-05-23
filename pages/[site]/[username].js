@@ -8,6 +8,8 @@ import ErrorPageBody from '../../components/errorPageBody'
 import { supported_sites} from '../../recommendations.config';
 import Footer from '../../components/footer';
 
+import {withRouter} from 'next/router'
+
 function isValidUsername(username)
 {
   return username.match(/^[a-zA-Z0-9_-]{3,30}$/g)
@@ -73,6 +75,31 @@ class RecommendatiosPage extends React.Component {
     super(props);
     this.props = props
 
+    this.state = {
+      username: props.username
+    }
+  }
+
+  getPushUrl(site, username)
+  {
+    return `/${site}/${username}`
+  }
+
+  onSiteChange = props =>  e => 
+  {
+    e.preventDefault()
+    let new_site = e.target.value
+    props.router.push(this.getPushUrl(new_site, props.username))
+  }
+
+  onUsernameChange = instance => e => {
+    e.preventDefault()
+    instance.setState({username: e.target.value})
+  }
+
+  onUsernameSubmit = instance => e => {
+    e.preventDefault()
+    instance.props.router.push(this.getPushUrl(instance.props.site, instance.state.username))
   }
 
   get_page_content() {
@@ -84,7 +111,23 @@ class RecommendatiosPage extends React.Component {
     } else {
       return (
         <Grid>
-          <GradientTitle><h3 style={{height:"100%"}}>Hi {this.props.username}!</h3></GradientTitle>
+          <GradientTitle>
+            <div style={{height: "100%", width: "100%", display: "flex", flexWrap: "wrap", alignItems:"center"}}>
+              <div style={{display: "flex", alignItems:"center"}}>
+                <h3 style={{height:"100%"}}>Hi</h3>
+                <form onSubmit={this.onUsernameSubmit(this)}>
+                  <input value={this.state.username} style={{height:"30px"}} onChange={this.onUsernameChange(this)}></input>
+                </form>
+              </div>
+              <div style={{display: "flex", alignItems:"center"}}>
+                <h3>from</h3>
+                <select name="site" id="site" style={{marginLeft: "10px"}} onChange={this.onSiteChange(this)} value={this.props.site}>
+                  <option value="anilist">Anilist</option>
+                  <option value="mal">MyAnimeList</option>
+                </select>
+              </div>
+            </div>
+            </GradientTitle>
           {this.props.recommendations.map(data => {return (<AnimeCard key={data.id} entry={data}>{data.title} site={this.props.site}</AnimeCard>)})}
         </Grid>
       )
@@ -102,4 +145,4 @@ class RecommendatiosPage extends React.Component {
   }
 }
 
-export default RecommendatiosPage
+export default withRouter(RecommendatiosPage)
