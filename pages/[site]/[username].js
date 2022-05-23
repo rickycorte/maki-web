@@ -6,7 +6,7 @@ import GradientTitle from '../../components/grandietTitle';
 import Grid from '../../components/grid';
 import ErrorPageBody from '../../components/errorPageBody'
 
-import { supported_sites} from '../../recommendations.config';
+import { supported_sites, anime_genres} from '../../recommendations.config';
 import Footer from '../../components/footer';
 
 import {withRouter} from 'next/router'
@@ -23,9 +23,14 @@ function isValidSite(site) {
 export async function getServerSideProps(context) {
 
   const { site, username } = context.params
+  const {genre} = context.query
+
 
   console.log("Starting recommendation fetch")
   let url = `https://api.makichan.xyz/anime/${site}/${username}?k=24`
+
+  if(genre != undefined)
+    url += `&genre=${genre}`
 
   console.log(`Calling API: ${url}`);
 
@@ -45,7 +50,7 @@ export async function getServerSideProps(context) {
           error_message = "Please slow down a bit, I can't follow you!"
           break;
         case 400:
-          consoloe.log(await response.json())
+          console.log(await response.json())
           error_message = "Something went wrong with your request! Please check your data!"
           break;
         default:
@@ -65,7 +70,8 @@ export async function getServerSideProps(context) {
       site: site,
       username: username,
       recommendations: recommendations,
-      error_message: error_message
+      error_message: error_message,
+      genre: genre == undefined ? null : genre,
     }, // will be passed to the page component as props
   }
 }
@@ -77,20 +83,24 @@ class RecommendatiosPage extends React.Component {
     this.props = props
 
     this.state = {
-      username: props.username
+      username: props.username,
+      genre: props.genre
     }
   }
 
-  getPushUrl(site, username)
+  getPushUrl(site, username, genre)
   {
-    return `/${site}/${username}`
+    let url = `/${site}/${username}`
+    if(genre != null)
+      url += `?genre=${genre}`
+
+    return url
   }
 
-  onSiteChange = props =>  e => 
+  onSiteChange = instance =>  e => 
   {
     e.preventDefault()
-    let new_site = e.target.value
-    props.router.push(this.getPushUrl(new_site, props.username))
+    instance.props.router.push(this.getPushUrl(e.target.value, instance.props.username, instance.state.genre))
   }
 
   onUsernameChange = instance => e => {
@@ -100,7 +110,12 @@ class RecommendatiosPage extends React.Component {
 
   onUsernameSubmit = instance => e => {
     e.preventDefault()
-    instance.props.router.push(this.getPushUrl(instance.props.site, instance.state.username))
+    instance.props.router.push(this.getPushUrl(instance.props.site, instance.state.username, instance.state.genre))
+  }
+
+  onChangeGenre = instance =>  e => {
+    e.preventDefault()
+    instance.props.router.push(this.getPushUrl(instance.props.site, instance.state.username, e.target.value))
   }
 
   get_page_content() {
@@ -124,22 +139,33 @@ class RecommendatiosPage extends React.Component {
       return (
         <Grid>
           <GradientTitle>
-            <div style={{height: "100%", width: "100%", display: "flex", flexWrap: "wrap", alignItems:"center"}}>
-              <div style={{display: "flex", alignItems:"center"}}>
-                <h3 style={{height:"100%"}}>Hi</h3>
-                <form onSubmit={this.onUsernameSubmit(this)}>
-                  <input value={this.state.username} style={{height:"30px"}} onChange={this.onUsernameChange(this)}></input>
-                </form>
+            <div style={{height: "100%", width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "space-between", flexDirection:"row"}}>
+
+              <div style={{height: "100%", display: "flex", flexWrap: "wrap", alignItems:"center"}}>
+                <div style={{display: "flex", alignItems:"center"}}>
+                  <h3 style={{height:"100%"}}>Hi</h3>
+                  <form onSubmit={this.onUsernameSubmit(this)}>
+                    <input value={this.state.username} style={{height:"30px"}} onChange={this.onUsernameChange(this)}></input>
+                  </form>
+                </div>
+                <div style={{height: "100%", display: "flex", alignItems:"center"}}>
+                  <h3>from</h3>
+                  <select name="site" id="site" style={{marginLeft: "10px"}} onChange={this.onSiteChange(this)} value={this.props.site}>
+                    <option value="anilist">Anilist</option>
+                    <option value="mal">MyAnimeList</option>
+                  </select>
+                </div>
               </div>
+
               <div style={{display: "flex", alignItems:"center"}}>
-                <h3>from</h3>
-                <select name="site" id="site" style={{marginLeft: "10px"}} onChange={this.onSiteChange(this.props)} value={this.props.site}>
-                  <option value="anilist">Anilist</option>
-                  <option value="mal">MyAnimeList</option>
+                <select name="genre" id="genre" onChange={this.onChangeGenre(this)} value={this.props.genre}>
+                  <option value="null">Filter by Genre</option>
+                  {anime_genres.map(i => ( <option key={i.value} value={i.value}>{i.text}</option>))}
                 </select>
               </div>
+
             </div>
-            </GradientTitle>
+          </GradientTitle>
           {this.props.recommendations.map(data => {return (<AnimeCard key={data.id} entry={data}>{data.title} site={this.props.site}</AnimeCard>)})}
         </Grid>
       )
