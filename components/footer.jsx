@@ -9,23 +9,23 @@ export default function Footer() {
                     <div className={styles.link_block}>
                         <h3>Community</h3>
                         <div className={styles.links}>
-                            <a href="#">Documentation</a>
-                            <a href="#">Roadmap</a>
-                            <a href="#">Discussions</a>
-                            <a href="#">Issues</a>
+                            <a href="https://docs.makichan.xyz">Documentation</a>
+                            <a href="https://github.com/rickycorte/maki-web/projects/1">Roadmap</a>
+                            <a href="https://github.com/rickycorte/maki-web/discussions">Discussions</a>
+                            <a href="https://github.com/rickycorte/maki-web/issues">Issues</a>
                         </div>
                     </div>
 
                     <div className={styles.link_block}>
                         <h3>More</h3>
                         <div className={styles.links}>
-                            <a href="#">Status</a>
-                            <a href="#">Term of Service</a>
-                            <a href="#">Privacy</a>
-                            <a href="#">Credits</a>
+                            <a href="/status">Status</a>
+                            <a href="/tos">Term of Service</a>
+                            <a href="/privacy">Privacy</a>
+                            <a href="/credits">Credits</a>
                         </div>
                     </div>
-                    
+
                 </div>
                 <p>Copyright © 2022 rickycorte.</p>
             </div>
