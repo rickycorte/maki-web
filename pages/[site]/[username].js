@@ -100,7 +100,7 @@ class RecommendatiosPage extends React.Component {
   onSiteChange = instance =>  e => 
   {
     e.preventDefault()
-    instance.props.router.push(this.getPushUrl(e.target.value, instance.props.username, instance.state.genre))
+    instance.props.router.push(this.getPushUrl(e.target.value, instance.props.username, instance.props.genre))
   }
 
   onUsernameChange = instance => e => {
@@ -110,7 +110,7 @@ class RecommendatiosPage extends React.Component {
 
   onUsernameSubmit = instance => e => {
     e.preventDefault()
-    instance.props.router.push(this.getPushUrl(instance.props.site, instance.state.username, instance.state.genre))
+    instance.props.router.push(this.getPushUrl(instance.props.site, instance.state.username, instance.props.genre))
   }
 
   onChangeGenre = instance =>  e => {
