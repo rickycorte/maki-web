@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Container from "../components/container";
 import Footer from "../components/footer";
 import GradientTitle from "../components/grandietTitle";
@@ -6,9 +7,11 @@ export default function ToSPage (){
     return (
         <Container>
             <GradientTitle>
-                <a href="/" style={{width: "100%", textAlign: "center"}}>
-                    <h3 style={{width: "100%", textAlign: "center"}}>Maki</h3>
-                </a>
+            <Link href="/">
+                    <a style={{width: "100%", textAlign: "center"}}>
+                        <h3 style={{width: "100%", textAlign: "center"}}>Maki</h3>
+                    </a>
+                </Link>
             </GradientTitle>
             <div className="container link">
                 <div className="container_body">

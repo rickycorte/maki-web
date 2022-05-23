@@ -1,4 +1,5 @@
 import styles from './footer.module.css';
+import Link from 'next/link'
 
 export default function Footer() {
     return (
@@ -9,10 +10,10 @@ export default function Footer() {
                     <div className={styles.link_block}>
                         <h3>Community</h3>
                         <div className={styles.links}>
-                            <a href="https://docs.makichan.xyz">Documentation</a>
-                            <a href="https://github.com/rickycorte/maki-web/projects/1">Roadmap</a>
-                            <a href="https://github.com/rickycorte/maki-web/discussions">Discussions</a>
-                            <a href="https://github.com/rickycorte/maki-web/issues">Issues</a>
+                            <Link href="https://docs.makichan.xyz"><a>Documentation</a></Link>
+                            <Link href="https://github.com/rickycorte/maki-web/projects/1"><a>Roadmap</a></Link>
+                            <Link href="https://github.com/rickycorte/maki-web/discussions"><a>Discussions</a></Link>
+                            <Link href="https://github.com/rickycorte/maki-web/issues"><a>Issues</a></Link>
                         </div>
                     </div>
 
