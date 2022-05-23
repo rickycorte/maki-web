@@ -25,6 +25,30 @@ a {
   text-decoration: none;
 }
 
+.link a {
+  text-decoration: underline;
+}
+
+.link a:hover {
+  color: var(--gradient-purple-orange-fallback);
+  background: var(--purple-orange-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 * {
   box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  padding: var(--global-padding);
+}
+
+.container_body {
+  background-color: var(--foreground-color);
+  border-radius: var(--item-radius);
+  color: var(--text-color);
+  box-shadow: var(--global-shadow);
+  padding: 10px;
 }
