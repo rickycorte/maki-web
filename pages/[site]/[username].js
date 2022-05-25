@@ -150,15 +150,15 @@ class RecommendatiosPage extends React.Component {
                 </div>
                 <div style={{height: "100%", display: "flex", alignItems:"center"}}>
                   <h3>from</h3>
-                  <select name="site" id="site" style={{marginLeft: "10px"}} onChange={this.onSiteChange(this)} value={this.props.site}>
+                  <select name="site" id="site" style={{marginLeft: "10px",}} onChange={this.onSiteChange(this)} value={this.props.site}>
                     <option value="anilist">Anilist</option>
                     <option value="mal">MyAnimeList</option>
                   </select>
                 </div>
               </div>
 
-              <div style={{display: "flex", alignItems:"center"}}>
-                <select name="genre" id="genre" onChange={this.onChangeGenre(this)} value={this.props.genre}>
+              <div style={{display: "flex", alignItems:"center", textAlign: "center"}}>
+                <select className="pad_mobile" name="genre" id="genre" onChange={this.onChangeGenre(this)} value={this.props.genre}>
                   <option value="null">Filter by Genre</option>
                   {anime_genres.map(i => ( <option key={i.value} value={i.value}>{i.text}</option>))}
                 </select>

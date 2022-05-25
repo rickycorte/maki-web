@@ -72,3 +72,9 @@ input {
   padding: 2px;
   margin: 5px;
 }
+
+@media screen and (max-width: 800px) {
+  .pad_mobile {
+    margin-bottom: 15px;
+  }
+}
