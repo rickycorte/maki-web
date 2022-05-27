@@ -140,32 +140,40 @@ class RecommendatiosPage extends React.Component {
       return (
         <Grid>
           <GradientTitle>
-            <div style={{height: "100%", width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "space-between", flexDirection:"row"}}>
+          <Container>
+            <Link href="/">
+                      <a style={{width: "100%", textAlign: "center"}}>
+                          <h3 style={{width: "100%", textAlign: "center", marginBottom: "0px"}}>Maki</h3>
+                      </a>
+              </Link>
+              <div className="rowFull" style={{height: "100%", width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "space-between", flexDirection:"row"}}>
 
-              <div style={{height: "100%", display: "flex", flexWrap: "wrap", alignItems:"center"}}>
-                <div style={{display: "flex", alignItems:"center"}}>
-                  <h3 style={{height:"100%"}}>Hi</h3>
-                  <form onSubmit={this.onUsernameSubmit(this)}>
-                    <input value={this.state.username} style={{height:"30px"}} onChange={this.onUsernameChange(this)}></input>
-                  </form>
+                <div className="rowFull"></div>
+                <div style={{height: "100%", display: "flex", flexWrap: "wrap", alignItems:"center"}}>
+                  <div style={{display: "flex", alignItems:"center"}}>
+                    <h3 style={{height:"100%"}}>Hi</h3>
+                    <form onSubmit={this.onUsernameSubmit(this)}>
+                      <input value={this.state.username} style={{height:"30px"}} onChange={this.onUsernameChange(this)}></input>
+                    </form>
+                  </div>
+                  <div style={{height: "100%", display: "flex", alignItems:"center"}}>
+                    <h3>from</h3>
+                    <select name="site" id="site" style={{marginLeft: "10px",marginRight:"10px"}} onChange={this.onSiteChange(this)} value={this.props.site}>
+                      <option value="anilist">Anilist</option>
+                      <option value="mal">MyAnimeList</option>
+                    </select>
+                  </div>
                 </div>
-                <div style={{height: "100%", display: "flex", alignItems:"center"}}>
-                  <h3>from</h3>
-                  <select name="site" id="site" style={{marginLeft: "10px",}} onChange={this.onSiteChange(this)} value={this.props.site}>
-                    <option value="anilist">Anilist</option>
-                    <option value="mal">MyAnimeList</option>
+
+                <div style={{display: "flex", alignItems:"center", textAlign: "center"}}>
+                  <select style={{height:"30px"}} className="pad_mobile" name="genre" id="genre" onChange={this.onChangeGenre(this)} value={this.props.genre}>
+                    <option value="null">Filter by Genre</option>
+                    {anime_genres.map(i => ( <option key={i.value} value={i.value}>{i.text}</option>))}
                   </select>
                 </div>
-              </div>
 
-              <div style={{display: "flex", alignItems:"center", textAlign: "center"}}>
-                <select className="pad_mobile" name="genre" id="genre" onChange={this.onChangeGenre(this)} value={this.props.genre}>
-                  <option value="null">Filter by Genre</option>
-                  {anime_genres.map(i => ( <option key={i.value} value={i.value}>{i.text}</option>))}
-                </select>
               </div>
-
-            </div>
+            </Container>
           </GradientTitle>
           {this.props.recommendations.map(data => {return (<AnimeCard key={data.id} entry={data}>{data.title} site={this.props.site}</AnimeCard>)})}
         </Grid>

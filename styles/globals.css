@@ -159,16 +159,18 @@ input::placeholder {
 }
 
 @media screen and (max-width: 800px) {
-  .pad_mobile {
-    margin-bottom: 15px;
-  }
-
   .front .search {
     width: 100%;
   }
 
   .row {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .pad_mobile {
+    margin-bottom: 15px;
   }
 }
 
