@@ -62,15 +62,24 @@ select {
   padding: 2px;
 }
 
+select option {
+  background: var(--foreground-color);
+}
+
 input {
   outline: 0;
   background-color: rgba(12, 12, 12, .1);
   border-width: 0px 0px 2px;
-  border: 0px 0px 2px 0px solid white;
+  border-color: white;
+  border-style: solid;
   color: var(--text-color);
   font-size: 14pt;
   padding: 2px;
   margin: 5px;
+}
+
+input::placeholder {
+  color: rgb(196, 193, 193);
 }
 
 
