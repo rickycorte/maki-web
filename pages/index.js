@@ -38,6 +38,9 @@ class HomePage extends React.Component {
     return (
       <Container>
         <div className="front">
+          <video autoPlay muted loop>
+            <source src="/video/main.mp4" type="video/mp4" />
+          </video>
           <div className="search">
             <GradientTitle>
                 <form onSubmit={this.onSubmit}>

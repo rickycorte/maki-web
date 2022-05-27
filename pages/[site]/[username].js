@@ -27,7 +27,7 @@ export async function getServerSideProps(context) {
 
 
   console.log("Starting recommendation fetch")
-  let url = `https://api.makichan.xyz/anime/${site}/${username}?k=24`
+  let url = `https://api.makichan.xyz/anime/${site}/${username}?k=32`
 
   if(genre != undefined)
     url += `&genre=${genre}`
