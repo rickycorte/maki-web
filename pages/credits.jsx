@@ -2,6 +2,7 @@ import Link from "next/link";
 import Container from "../components/container";
 import Footer from "../components/footer";
 import GradientTitle from "../components/grandietTitle";
+import Head from 'next/head';
 
 export default function CreditsPage (){
     return (

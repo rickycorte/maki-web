@@ -10,6 +10,7 @@ import { supported_sites, anime_genres} from '../../recommendations.config';
 import Footer from '../../components/footer';
 
 import {withRouter} from 'next/router'
+import Head from 'next/head';
 
 function isValidUsername(username)
 {
