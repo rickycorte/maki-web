@@ -6,6 +6,13 @@ import GradientTitle from "../components/grandietTitle";
 export default function CreditsPage (){
     return (
         <Container>
+           <Head>
+                <title>Credits | Maki</title>
+                <meta
+                    name="description"
+                    content="Credits for images used on the web application"
+                />
+            </Head>
             <GradientTitle>
                 <Link href="/">
                     <a style={{width: "100%", textAlign: "center"}}>

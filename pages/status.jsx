@@ -6,6 +6,13 @@ import GradientTitle from "../components/grandietTitle";
 export default function ToSPage (){
     return (
         <Container>
+            <Head>
+                <title>Status | Maki</title>
+                <meta
+                    name="description"
+                    content="Status page used to check if the web app and the backend are online"
+                />
+            </Head>
             <GradientTitle>
             <Link href="/">
                     <a style={{width: "100%", textAlign: "center"}}>

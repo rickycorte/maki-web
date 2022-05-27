@@ -3,6 +3,7 @@ import Container from '../components/container';
 import Footer from '../components/footer';
 import GradientTitle from '../components/grandietTitle';
 import {withRouter} from 'next/router'
+import Head from 'next/head';
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -37,6 +38,13 @@ class HomePage extends React.Component {
 
     return (
       <Container>
+        <Head>
+          <title>Maki - Anime Recommender</title>
+          <meta
+            name="description"
+            content="The first anime recommender system ready to be used and integrated anywhere."
+          />
+        </Head>
         <div className="front">
           <video autoPlay muted loop>
             <source src="/video/main.mp4" type="video/mp4" />
@@ -66,7 +74,7 @@ class HomePage extends React.Component {
                 <div className="container_body hello">
                     <h1>Hi sen(pi)~</h1>
                     <h3>Welcome to Maki! The first fully automated recommender system for anime!</h3>
-                    <p>Maki is 100% free to use and integrate in any application by using its REST API.</p>
+                    <p>Maki is 100% free to use and integrate in any application by using its REST API, all you need is a public anime list on Anilist or MyAnimeList!</p>
                 </div>
             </div>
         <Footer></Footer>

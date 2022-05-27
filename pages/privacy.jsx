@@ -6,6 +6,13 @@ import GradientTitle from "../components/grandietTitle";
 export default function ToSPage (){
     return (
         <Container>
+            <Head>
+                <title>Privacy | Maki</title>
+                <meta
+                    name="description"
+                    content="Privacy policy for Maki and Maki API"
+                />
+            </Head>
             <GradientTitle>
             <Link href="/">
                     <a style={{width: "100%", textAlign: "center"}}>

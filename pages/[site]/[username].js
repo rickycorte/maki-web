@@ -176,6 +176,13 @@ class RecommendatiosPage extends React.Component {
 
     return (
       <Container>
+        <Head>
+          <title>Recommendations | Maki</title>
+          <meta
+              name="description"
+              content="Recommended anime from Maki API"
+          />
+        </Head>
         {this.get_page_content()}
         <Footer></Footer>
         </Container>
