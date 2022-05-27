@@ -42,7 +42,7 @@ class HomePage extends React.Component {
           <title>Maki - Anime Recommender</title>
           <meta
             name="description"
-            content="The first anime recommender system ready to be used and integrated anywhere."
+            content="The first personalized anime recommender system ready to be used and integrated anywhere."
           />
         </Head>
         <div className="front">
@@ -73,7 +73,7 @@ class HomePage extends React.Component {
         <div className="container up">
                 <div className="container_body hello">
                     <h1>Hi sen(pi)~</h1>
-                    <h3>Welcome to Maki! The first fully automated recommender system for anime!</h3>
+                    <h3>Welcome to Maki! The first personalized recommender system for anime!</h3>
                     <p>Maki is 100% free to use and integrate in any application by using its REST API, all you need is a public anime list on Anilist or MyAnimeList!</p>
                 </div>
             </div>
