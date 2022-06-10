@@ -72,7 +72,7 @@ export async function getServerSideProps(context) {
       username: username,
       recommendations: recommendations,
       error_message: error_message,
-      genre: genre == undefined ? null : genre,
+      genre: genre == undefined ? "" : genre,
     }, // will be passed to the page component as props
   }
 }
@@ -175,7 +175,7 @@ class RecommendatiosPage extends React.Component {
               </div>
             </Container>
           </GradientTitle>
-          {this.props.recommendations.map(data => {return (<AnimeCard key={data.id} entry={data}>{data.title} site={this.props.site}</AnimeCard>)})}
+          {this.props.recommendations.map(data => {return (<AnimeCard key={data.id} entry={data} site={this.props.site}>{data.title}</AnimeCard>)})}
         </Grid>
       )
     }
