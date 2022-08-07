@@ -95,7 +95,7 @@ class HomePage extends React.Component {
               Maki can generate a list of anime that you may like using your anime list on MyAnimeList or Anilist.
               You can stop searching for generic recommended anime online, with Maki in a few seconds you can get recommendations generated just for you!
             </p>
-            <h2 className='is-size-4 mt-6'>What if I'm looking for a specific genre?</h2>
+            <h2 className='is-size-4 mt-6'>What if I&apos;m looking for a specific genre?</h2>
             <p>
               You can recommendations only for the genre you want. You can also get &quot;cultured&quot; recommendations that you cannot find anywhere else!
             </p>
