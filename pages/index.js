@@ -97,7 +97,7 @@ class HomePage extends React.Component {
             </p>
             <h2 className='is-size-4 mt-6'>What if I'm looking for a specific genre?</h2>
             <p>
-              You can recommendations only for the genre you want. You can also get "cultured" recommendations that you cannot find anywhere else!
+              You can recommendations only for the genre you want. You can also get &quot;cultured&quot; recommendations that you cannot find anywhere else!
             </p>
           </div>
         </div>
