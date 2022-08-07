@@ -280,7 +280,7 @@ input::placeholder {
 }
 
 
-.hello h1, h2{
+.hello h1, .hello h2, .hello h3{
   color: var(--gradient-purple-orange-fallback);
   background: var(--purple-orange-gradient);
   -webkit-background-clip: text;
