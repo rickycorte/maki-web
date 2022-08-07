@@ -294,3 +294,7 @@ input::placeholder {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.f-container img {
+  max-height: 400px;
+}

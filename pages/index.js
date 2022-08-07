@@ -44,7 +44,7 @@ class HomePage extends React.Component {
     return (
       <Container>
         <Head>
-          <title>Maki - Anime Recommender</title>
+          <title>Maki - Anime Recommendations</title>
           <meta
             name="description"
             content="Get personalized anime recommendations based on your MyAnimeList or Anilist profile."
@@ -88,17 +88,17 @@ class HomePage extends React.Component {
           <div className="column is-centered hello">
             <h1 className='is-size-1 is-center-mobile'>Get your anime recommendations!</h1>
             <p>
-              Tired of looking for anime recommendations on Reddit or in some other site? 
-              Maki is a fully automated recommender system that is able to generate as much anime recommendations as you want in just a couple of seconds.
+              Tired of <b>looking for anime recommendations</b> on Reddit or in some other site? 
+              Maki is a fully automated recommender system that is able to <b>generate personalized anime recommendations</b> in just a couple of seconds.
             </p>
             <h2 className='is-size-4 mt-6'>What does this mean?</h2>
             <p>
-              Maki can generate a list of anime that you may like using your anime list on MyAnimeList or Anilist.
-              You can stop searching for generic recommended anime online, with Maki in a few seconds you can get recommendations generated just for you!
+              Maki learns to suggest personalized recommendations using your existing anime list on MyAnimeList or Anilist,no extra step is needed to use Maki, just a public anime list!<br/>
+              You can stop searching for generic recommended anime online, with Maki you get recomemndations generated just for you!
             </p>
-            <h2 className='is-size-4 mt-6'>What if I&apos;m looking for a specific genre?</h2>
+            <h2 className='is-size-4 mt-6'>I&apos;m looking for a specific genre</h2>
             <p>
-              You can recommendations only for the genre you want. You can also get &quot;cultured&quot; recommendations that you cannot find anywhere else!
+              You can ask Maki to generate recommendations only for the genre you want. You can also get &quot;cultured&quot; recommendations that you cannot find anywhere else!
             </p>
           </div>
         </div>
@@ -222,17 +222,17 @@ class HomePage extends React.Component {
         </div>
 
         <div className="f-container columns">
-          <div className="column is-centered is-vcentered">
+          <div className="column center is-centered is-vcentered">
             <Image src={programmingPic} alt="Anime girl holding a laptop and a C book"/>
           </div>
           <div className="column is-centered hello is-vcentered">
             <h2 className='is-size-1 is-center-mobile'>Maki for developers</h2>
             <p>  
-              Maki is the only anime recommender system that offers a free REST API! If you are intrested to use Maki in your project checkout the documentation!
+              Maki is the only anime recommender system that offers a <b>free REST API</b>! If you are intrested to use Maki in your project checkout the documentation!
             </p>
             <h3 className='is-size-4 mt-6'>Why do you offer a free API?</h3>
             <p>
-              To allow developer to improve and offer new features in their own anime-related projects!
+              To allow developers to improve and offer new features in their own anime-related projects!
             </p>
             <h3 className='is-size-4 mt-6'>Where is the catch?</h3>
             <p>
