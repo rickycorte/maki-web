@@ -148,7 +148,7 @@ class RecommendatiosPage extends React.Component {
               </Link>
               <div className="rowFull" style={{height: "100%", width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "space-between", flexDirection:"row"}}>
 
-                <div className="rowFull"></div>
+                <div className="rowFull custom"></div>
                 <div style={{height: "100%", display: "flex", flexWrap: "wrap", alignItems:"center"}}>
                   <div style={{display: "flex", alignItems:"center"}}>
                     <h3 style={{height:"100%"}}>Hi</h3>

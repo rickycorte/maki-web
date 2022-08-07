@@ -2,19 +2,23 @@
 .container {
     width: 100%;
     min-height: 80%;
-    padding: var(--global-padding);
+    /*padding: var(--global-padding);*/
 }
 
 .container_body {
     background-color: var(--foreground-color);
+    /*
     border-radius: var(--item-radius);
+    box-shadow: var(--global-shadow);
+    */
     color: var(--text-color);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    box-shadow: var(--global-shadow);
     min-height: 100px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .link_container {

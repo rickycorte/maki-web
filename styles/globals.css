@@ -1,6 +1,8 @@
 :root {
   --item-radius: 15px;
   --bg-color: #242424;
+  --bg-color-darker: #161616;
+  --front-gradient: linear-gradient(180deg, rgba(255,255,255,0) 80%, rgba(36,36,36,1) 95%);
   --foreground-color: #333333;
   --gradient-purple-orange-fallback: rgba(196,38,223,1);
   --purple-orange-gradient: linear-gradient(90deg, rgba(196,38,223,.9) 0%, rgba(255,150,52,.9) 100%);
@@ -8,6 +10,7 @@
   --text-color: white;
   --global-shadow: 4px 4px 8px 2px #030303;
 }
+
 
 
 html,
@@ -18,6 +21,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     width: 100%;
     background-color: var(--bg-color);
+  color: white;
 }
 
 a {
@@ -27,6 +31,12 @@ a {
 
 .link a {
   text-decoration: underline;
+}
+
+.darker {
+  background-color: var(--bg-color-darker);
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .link a:hover {
@@ -40,9 +50,10 @@ a {
   box-sizing: border-box;
 }
 
-.container {
+.f-container {
   width: 100%;
   padding: var(--global-padding);
+  margin: 0px !important;
 }
 
 .container_body {
@@ -106,13 +117,68 @@ input::placeholder {
   object-fit: cover;
 }
 
-
-.front .search {
-  width: 50%;
-  margin-top: 75px;
-  z-index: 10;
+.front .gradient {
+  background: rgba(255,255,255,0);
+  background: var(--front-gradient);
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 
+.fill {
+  width: 100%;
+}
+
+.front .search {
+  z-index: 10;
+  min-width: 50%;
+}
+
+.search .container {
+  width: 100%;
+  display: flex;
+  padding: 0px;
+  background-color: var(--bg-color);
+  align-content: stretch;
+  
+}
+
+.search select {
+  background-color: rgba(12, 12, 12, .1);
+  border: none;
+  color: var(--text-color);
+  font-size: 14pt;
+  border-radius: 0px;
+  padding: 10px 0px 10px 10px;
+}
+
+.search select:hover {
+  background-color: rgba(97, 97, 97, 0.5);
+}
+
+
+.search .col-fill {
+  flex-grow: 1;
+}
+
+.search button {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(12, 12, 12, .1);
+  border: none;
+  color: var(--text-color);
+  font-size: 14pt;
+  border-radius: 0px;
+  padding: 10px 10px 10px 5px;
+}
+
+.search input {
+  margin: 0px;
+}
+
+.search button:hover {
+  background-color: rgba(97, 97, 97, 0.5);
+}
 
 
 .front form {
@@ -124,6 +190,36 @@ input::placeholder {
   width: 100%;
 }
 
+.front .nav {
+  width: 100%;
+  height: 50px;
+  background-color: var(--bg-color);
+  position: absolute;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: large;
+}
+
+.front .nav a {
+  text-decoration: none;
+  padding: 10px;
+}
+
+.logo {
+  width: 50px !important;
+  height: 100% !important;
+  padding: 5px;
+}
+
+.front .nav a:hover {
+  color: var(--gradient-purple-orange-fallback);
+  background: var(--purple-orange-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: underline;
+}
 
 .row {
   display: flex;
@@ -132,20 +228,6 @@ input::placeholder {
   justify-content: center;
 }
 
-.search button {
-  width: 100%;
-  margin-bottom: 15px;
-  height: 30px;
-  background-color: rgba(12, 12, 12, .1);
-  border: 1px solid white;
-  border-radius: var(--item-radius);
-  color: var(--text-color);
-  font-size: 14pt;
-}
-
-.search button:hover {
-  background-color: rgba(12, 12, 12, .3);
-}
 
 .up {
   transform: translateY(-50px);
@@ -158,13 +240,36 @@ input::placeholder {
   justify-content: center;
 }
 
+
 @media screen and (max-width: 800px) {
   .front .search {
+    width: 100% !important;
+    margin: 5px;
+  }
+
+  .col {
     width: 100%;
+    padding: 5px;
+  }
+
+  .search select {
+    text-align: center;
+  }
+
+  .search input {
+    text-align: center;
+  }
+
+  .col-fill {
+    padding: 5px;
   }
 
   .row {
     width: 100%;
+  }
+
+  body {
+    text-align: center;
   }
 }
 
@@ -175,11 +280,15 @@ input::placeholder {
 }
 
 
-.hello {
-  text-align: center;
+.hello h1, h2{
+  color: var(--gradient-purple-orange-fallback);
+  background: var(--purple-orange-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.hello h1 {
+
+.level-item .title {
   color: var(--gradient-purple-orange-fallback);
   background: var(--purple-orange-gradient);
   -webkit-background-clip: text;
